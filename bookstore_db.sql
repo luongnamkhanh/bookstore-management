@@ -28,7 +28,7 @@ create table books(
 	price decimal,
 	publisher_name varchar(255),
 	publication_date date,
-	quantity int,
+	quantity int check(quantity >0),
 );
 
 create table authors(

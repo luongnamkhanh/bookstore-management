@@ -10,8 +10,8 @@ In our expectations, the staff may have these main functions:
     - Access to view the available books => Manage quantities​ 
     - Add new books in the systems​ 
     - Update book’s information (Change information/Delete books)​ 
-  - Manage the information of customers (Name, phone number, address, d.o.b…) 
-Administrator: Add/Delete account of staffs​ 
+  - Manage the information of customers (Name, phone number, address, d.o.b…) <br>
+Manager: Add/Delete account of staffs​ 
 
 Staffs have a home page where all books by genre is displayed and details of book will be displayed on clicking a particular book.
 They can search a book by title, genre or author name.

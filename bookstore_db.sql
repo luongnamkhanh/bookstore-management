@@ -10,7 +10,7 @@ create table customers(
 	customer_id int primary key,
 	first_name varchar(255),
 	last_name varchar(255),
-	gender int check (gender in (0,1)),
+	gender int check (gender in (0,1)), --0 female 1 male
 	dob date,
 	email varchar(255),
 	phone_number varchar(50),
@@ -21,7 +21,7 @@ create table staffs(
 	name varchar(255),
 	account varchar(255),
 	password varchar(255),
-	role int check (role in (1,2))
+	role int check (role in (1,2)) --1 sales 2 managers
 );
 
 create table books(
@@ -41,7 +41,7 @@ create table authors(
 create table orders(
   order_id int identity(1,1) primary key,
   customer_id int,
-  status int check(status in (0,1,2)),
+  status int check(status in (0,1,2)) default 0, --0 pending 1 processed 2 canceled
   order_date datetime,
   amount decimal,
   staff_id int
@@ -79,7 +79,7 @@ create table adminstrator(
 alter table orders add foreign key (customer_id) references customers(customer_id) on update cascade on delete NO ACTION; 
 alter table orders add foreign key (staff_id) references staffs(staff_id) on update cascade on delete NO ACTION; 
 -- Foreign Keys in orderlines
-alter table orderlines add foreign key (order_id) references orders(order_id) on update cascade on delete NO ACTION;
+alter table orderlines add foreign key (order_id) references orders(order_id) on update cascade on delete cascade;
 alter table orderlines add foreign key (book_id) references books(book_id) on update cascade on delete NO ACTION;
 -- Foreign Keys in book_author
 alter table book_author add foreign key (author_id) references authors(author_id) on update cascade on delete cascade;
@@ -261,7 +261,7 @@ go
 create procedure sale_by_month (@month as int, @year as int)
 as begin 
 select * from orders 
-where datepart(year, order_date) = @year and datepart(month, order_date)=@month;
+where datepart(year, order_date) = @year and datepart(month, order_date)=@month and status = 1;
 end;
 
 
@@ -318,9 +318,9 @@ end;
 
 --insert new orders
 go 
-create procedure insert_orders(@customer_id as int, @status as int, @order_date as datetime, @staff_id as int)
+create procedure insert_orders(@customer_id as int, @order_date as datetime, @staff_id as int)
 as begin  
-insert into orders(customer_id, status, order_date, staff_id) values (@customer_id, @status, @order_date, @staff_id);
+insert into orders(customer_id, order_date, staff_id) values (@customer_id, @order_date, @staff_id);
 end;
 
 
@@ -362,6 +362,33 @@ begin
 update books
 set quantity = @new_quantity
 where book_id = @book_id;
+end;
+end;
+
+--create a temporary view
+go
+create view book_in_orderlines
+as
+select books.*, orderlines.quantity as order_quantity, orderlines.order_id
+from books
+join orderlines on books.book_id = orderlines.book_id;
+
+--update status of orders
+go
+create procedure update_status_by_orderid (@order_id as int, @new_status as int)
+as begin  
+update orders
+set status = @new_status
+where order_id = @order_id;
+if (@new_status = 1)
+begin 
+update book_in_orderlines
+set quantity = quantity - order_quantity
+where order_id = @order_id;
+end;
+if (@new_status = 2)
+begin
+delete from orders where order_id = @order_id;
 end;
 end;
 

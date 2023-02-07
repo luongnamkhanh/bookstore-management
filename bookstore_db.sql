@@ -27,7 +27,7 @@ create table staffs(
 create table books(
 	book_id int primary key,
 	title varchar(255),
-	price decimal check(price >0),
+	price float check(price >0),
 	publisher_name varchar(255),
 	publication_date date,
 	quantity int check(quantity>0),

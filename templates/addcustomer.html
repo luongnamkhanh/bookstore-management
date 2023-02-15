@@ -6,11 +6,11 @@
 <form action="" method="POST">
     <div class="form-group row">
         <label for="customer_id">Customer ID</label>
-        <input type="number" class="form-control" name="customer_id" id="customer_id"  placeholder="Enter Customer Id" value="{{customer.customer_id}}">
+        <input type="number" class="form-control" name="customer_id" id="customer_id"  placeholder="Enter Customer Id" value="{{customer.customer_id}}" required>
     </div>
     <div class="form-group row">
         <label for="first_name">First Name</label>
-        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{customer.first_name}}">
+        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{customer.first_name}}" required>
     </div>
     <div class="form-group row">
         <label for="first_name">Last Name</label>
@@ -30,7 +30,7 @@
     </div>
     <div class="form-group row">
         <label for="phone_number">Phone Number</label>
-        <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{3}" class="form-control" name="phone_number" id="phone_number" placeholder="Enter Phone Number format XXX-XXXX-XXX" value="{{customer.phone_number}}">
+        <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{3}" class="form-control" name="phone_number" id="phone_number" placeholder="Enter Phone Number format XXX-XXXX-XXX" value="{{customer.phone_number}}" required>
     </div>
     <div class="form-group row">
         <label for="address">Address</label>

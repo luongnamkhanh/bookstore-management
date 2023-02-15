@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %}Staffs{% endblock %} {% block content%}
+<br />
+<h2>Staff Details</h2>
+<br />
+
+<form action="" method="POST">
+    <div class="form-group row">
+        <label for="staff_id">Staff ID</label>
+        <input type="number" class="form-control" name="staff_id" id="staff_id" placeholder="Enter Staff ID" required>
+    </div>
+    <div class="form-group row">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name">
+    </div>
+    <div class="form-group row">
+        <label for="account">Account</label>
+        <input type="text" class="form-control" name="account" id="account" placeholder="Enter Account with format staff+'staff_id' " required>
+    </div>
+    <div class="form-group row">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
+    </div>
+    <div class="form-group row">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+    </div>
+    <div class="form-group row">
+        <label for="role">Position</label>
+        <input type="number" min="1" max="2" class="form-control" name="role" id="role" placeholder="Enter Postiton (1 for Sales/2 for Managers)" required>
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/staff" class="btn btn-primary">Cancel</a>
+</form>
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
+{% endblock %}

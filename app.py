@@ -36,6 +36,7 @@ def login():
         if response == 1: #login success
             flash("Login success!")
             session["account"] = account # creating a session of the username
+            session["password"] = password
             return redirect(url_for('homeRoute'))
         else: #login failed
             flash("Login failed!", "error")
@@ -337,11 +338,67 @@ def staffRoute():
     staffsData = allStaffs(sqlserver)
     return render_template("staff.html", staffsData = staffsData)
 
+#Add staff route
+@app.route('/addstaff', methods = ['GET', 'POST'])
+def addStaffRoute():
+    conn = connection()
+    cur = conn.cursor()
+    cur.execute("SELECT role FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    role_data = cur.fetchall()[0][0]
+    cur.close()
+    if request.method == 'GET':
+        if role_data == 1:
+            flash("You have no rights to add the other staffs", "error")
+            return redirect(url_for('staffRoute')) 
+        if role_data == 2:
+            return render_template("addstaff.html")
+    if request.method == 'POST':
+        staff_id = int(request.form["staff_id"])
+        name = request.form["name"]
+        account = request.form["account"]
+        password = request.form["password"]
+        role = int(request.form["role"])
+        response = addStaffs(sqlserver, staff_id, name, account, password, role)
+        if response == 1:
+            flash("You added the new staff successfully!")
+            return redirect(url_for('staffRoute'))
+        else:
+            flash("Failed!", "error")
+            return redirect(url_for('addStaffRoute'))
+        
+#delete staff route
+@app.route('/deletestaff/<int:id>')
+def deleteStaffRoute(id):
+    conn = connection()
+    cur = conn.cursor()
+    cur.execute("SELECT role FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    role_data = cur.fetchall()[0][0]
+    cur.close()
+    cur2 = conn.cursor()
+    cur2.execute("SELECT staff_id FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    staff_data = cur2.fetchall()[0][0]
+    cur2.close()
+    if role_data == 1:
+        flash("You have no rights to delete the others!", "error")
+        return redirect(url_for('staffRoute'))
+    elif role_data ==2:  
+        if id == staff_data:
+            flash("You can not delete yourself!", "error")
+            return redirect(url_for('staffRoute'))
+        else:
+            response = delelteStaffs(sqlserver, id)
+            if response == 1:
+                flash("Deleted successfully!")
+                return redirect(url_for('staffRoute'))
+            else:
+                flash('Failed to delete', "error")
+                return redirect(url_for('staffRoute')) 
 
 # logout route
 @app.route("/logout",methods = ["GET","POST"])
 def logoutRoute():
     session.pop("account",None) # removing username from session variable
+    session.pop("password", None)
     return redirect(url_for('login'))
 
 if __name__ == '__main__':

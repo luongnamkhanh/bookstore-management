@@ -22,10 +22,10 @@
             {% else %}
             <td>MANAGERS</td>
             {% endif %}
-            <td><a href='deletestaff/{{ staff.staff_id }}'>Delete</a></td>
+            <td><a href='/deletestaff/{{ staff.staff_id }}'>Delete</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
-<a class="btn btn-primary" href="addstaff">Add New Staff</a>
+<a class="btn btn-primary" href="/addstaff">Add New Staff</a>
 {% endblock %}

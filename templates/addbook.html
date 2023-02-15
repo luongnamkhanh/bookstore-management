@@ -6,11 +6,11 @@
 <form action="" method="POST">
     <div class="form-group row">
         <label for="book_id">Book ID</label>
-        <input type="number" class="form-control" name="book_id" id="book_id"  placeholder="Enter Book Id" value="{{book.book_id}}">
+        <input type="number" class="form-control" name="book_id" id="book_id"  placeholder="Enter Book Id" value="{{book.book_id}}" required>
     </div>
     <div class="form-group row">
         <label for="title">Title</label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="Enter Title" value="{{book.title}}">
+        <input type="text" class="form-control" name="title" id="title" placeholder="Enter Title" value="{{book.title}}" required>
     </div>
     <div class="form-group row">
         <label for="price">Price</label>
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group row">
         <label for="quantity">Quantity</label>
-        <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity"value="{{book.quantity}}">
+        <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity"value="{{book.quantity}}" required>
     </div>
     <button type="btnAdd" class="btn btn-primary">Submit</button>
     <a href="/book" class="btn btn-primary">Cancel</a>

@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Author Details{% endblock %} {% block content%}
+<br/>
+<h2>Author Details</h2>
+<br/>
+
+<form action="" method="POST">
+    <div class="form-group row">
+        <label for="author_name">Author name</label>
+        <input type="text" class="form-control" name="author_name" id="author_name" placeholder="Enter Author Name" value="{{author.author_name}}">
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/author" class="btn btn-primary">Cancel</a>
+</form>
+{% endblock %}

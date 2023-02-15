@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<br/>
+<h2> Genre List </h2>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Genre Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for genre in genresData %}
+        <tr>
+            <td>{{ genre.genre_id }}</td>
+            <td><a href="bookgenre/{{genre.genre_id}}"> {{genre.genre_name}} </a> </td>
+            <td><a href="deletegenre/{{genre.genre_id}}"> Delete </a></td>
+            <td><a href="addbookgenre/{{genre.genre_id}}"> Add new books </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-primary" href="addgenre">Add New Genre</a>
+{% endblock %}

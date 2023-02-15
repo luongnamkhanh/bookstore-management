@@ -6,7 +6,6 @@ def addBook(sqlserver,book_id,title,price,publisher_name,publication_date,quanti
         cur.execute("exec insert_books ?, ?, ?, ?, ?, ? ",book_id,title,price,publisher_name,publication_date,quantity)
     
         result = 1 # book added successfully
-    
     except:
         result = 0 # book failed to add
     
@@ -46,3 +45,13 @@ def deleteBook(sqlserver,book_id):
     cur.close()
 
     return result
+
+# function to get all books
+def allBooks(sqlserver):
+    cur = sqlserver.cursor()
+    cur.execute("exec all_books")
+    booksData = cur.fetchall()
+    booksData = list(booksData)
+    sqlserver.commit()
+    cur.close()
+    return booksData

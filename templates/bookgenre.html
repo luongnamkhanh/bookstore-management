@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<br/>
+<h2> Genre List </h2>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Genre Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{genresData[0][0]}}</td>
+            <td>{{genresData[0][1]}} </a> </td>
+        </tr>
+        <tr>
+            <subtable class="subtable">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Publisher Name</th>
+                        <th scope="col">Publication Date</th>
+                        <th scope="col">Quantity</th>
+                    </tr>  
+                </thead>
+                <tbody>
+                    {% for book_genre in book_genreData %}
+                    <tr>
+                        <td>{{ book_genre.book_id }}</td>
+                        <td>{{ book_genre.title }}</td>
+                        <td>{{ book_genre.price }}</td>
+                        <td>{{ book_genre.publisher_name }}</td>
+                        <td>{{ book_genre.publication_date }}</td>
+                        <td>{{ book_genre.quantity }}</td>
+                        <td><a href='/deletebookgenre/{{genresData[0][0]}}/{{book_genre.book_id}}'>Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </subtable>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

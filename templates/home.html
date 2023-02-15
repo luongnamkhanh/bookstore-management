@@ -1,30 +1,3 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<h2>Book list</h2>
-<table class="table">
-	<thead>
-		<tr>
-			<th scope="col">Id</th>
-			<th scope="col">Title</th>
-			<th scope="col">Price</th>
-			<th scope="col">Publisher Name</th>
-			<th scope="col">Publication Date</th>
-			<th scope="col">Quantity</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for book in booksData %}
-		<tr>
-			<td>{{ book.book_id }}</th>
-			<td>{{ book.title }}</td>
-			<td>{{ book.price }}</td>
-			<td>{{ book.publisher_name }}</td>
-			<td>{{ book.publication_date }}</td>
-			<td>{{ book.quantity }}</td>
-			<td><a href='updatebook/{{ book.book_id }}'>Edit</a></td>
-            <td><a href='deletebook/{{ book.book_id }}'>Delete</a></td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<a class="btn btn-primary" href="addbook">Add New Book</a>
+
 {% endblock %}

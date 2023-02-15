@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Author{% endblock %} {% block content%}
+<br/>
+<h2>Add Book Author</h2>
+<br/>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Author Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{author.author_id}}</td>
+            <td>{{author.author_name}}</td>
+        </tr>
+    </tbody>
+</table>
+<form action="" method="POST">
+    <div class="form-group row">
+        <label for="book_id">Book ID</label>
+        <input type="text" class="form-control" name="book_id" id="book_id" placeholder="Enter Book ID">
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/author" class="btn btn-primary">Cancel</a>
+</form>
+
+{% endblock %}

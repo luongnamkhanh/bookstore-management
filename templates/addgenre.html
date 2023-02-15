@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Genre Details{% endblock %} {% block content%}
+<br/>
+<h2>Genre Details</h2>
+<br/>
+
+<form action="" method="POST">
+    <div class="form-group row">
+        <label for="genre_name">Genre name</label>
+        <input type="text" class="form-control" name="genre_name" id="genre_name" placeholder="Enter Genre Name" value="{{genre.genre_name}}">
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/genres" class="btn btn-primary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<br/>
+<h2> Authors List </h2>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Author Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{authorsData[0][0]}}</td>
+            <td>{{authorsData[0][1]}} </a> </td>
+        </tr>
+        <tr>
+            <subtable class="subtable">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Publisher Name</th>
+                        <th scope="col">Publication Date</th>
+                        <th scope="col">Quantity</th>
+                    </tr>  
+                </thead>
+                <tbody>
+                    {% for book_author in book_authorData %}
+                    <tr>
+                        <td>{{ book_author.book_id }}</td>
+                        <td>{{ book_author.title }}</td>
+                        <td>{{ book_author.price }}</td>
+                        <td>{{ book_author.publisher_name }}</td>
+                        <td>{{ book_author.publication_date }}</td>
+                        <td>{{ book_author.quantity }}</td>
+                        <td><a href='/deletebookauthor/{{authorsData[0][0]}}/{{book_author.book_id}}'>Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </subtable>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

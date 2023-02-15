@@ -10,6 +10,7 @@ from utils.login import *
 from utils.genres import *
 from utils.authors import *
 from utils.customers import *
+from utils.staff import *
 
 app = Flask(__name__)
 def connection():
@@ -329,6 +330,12 @@ def updatecustomer(id):
             flash("Book failed to update!", "error")
             return redirect(url_for('addCustomersRoute', id = id))
         return redirect('/book')
+
+#All staff route
+@app.route('/staff')
+def staffRoute():
+    staffsData = allStaffs(sqlserver)
+    return render_template("staff.html", staffsData = staffsData)
 
 
 # logout route

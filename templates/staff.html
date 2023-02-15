@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}Staffs{% endblock %} {% block content%}
+<br/>
+<h2>Staff List</h2>
+<br/>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Staff Id</th>
+			<th scope="col">Name</th>
+			<th scope="col">Account</th>
+            <th scope="col">Position</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for staff in staffsData %}
+		<tr>
+			<td>{{ staff.staff_id }}</td>
+			<td>{{ staff.name }}</td>
+			<td>{{ staff.account }}</td>
+            {% if staff.role == 1 %}
+            <td>SALES</td>
+            {% else %}
+            <td>MANAGERS</td>
+            {% endif %}
+            <td><a href='deletestaff/{{ staff.staff_id }}'>Delete</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a class="btn btn-primary" href="addstaff">Add New Staff</a>
+{% endblock %}

@@ -158,10 +158,10 @@ def addbookgenre(genre_id):
         response = add_new_book_genre(sqlserver, genre_id, book_id)
         if response == 1:
             flash("Add book genre successfully!")
-            return redirect(url_for('genresRoute'))
+            return redirect(url_for('addbookgenre', genre_id = genre_id))
         else:
             flash("Failed", "error")
-            return redirect(url_for('genresRoute'))
+            return redirect(url_for('addbookgenre', genre_id = genre_id))
         
 #add book author route
 @app.route('/addbookauthor/<int:author_id>', methods=['GET', 'POST'])
@@ -180,10 +180,10 @@ def addbookauthor(author_id):
         response = add_new_book_author(sqlserver, author_id, book_id)
         if response == 1:
             flash("Add book author successfully!")
-            return redirect(url_for('authorsRoute'))
+            return redirect(url_for('addbookauthor', author_id=author_id))
         else:
             flash("Failed", "error")
-            return redirect(url_for('authorsRoute'))
+            return redirect(url_for('addbookauthor', author_id=author_id))
 
 #delete book genre
 @app.route('/deletebookgenre/<int:genre_id>/<int:book_id>')

@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Genre{% endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}Genres{% endblock %} {% block content%}
 <br/>
 <h2>Add Book Genre</h2>
 <br/>
@@ -14,6 +14,32 @@
         <tr>
             <td>{{genre.genre_id}}</td>
             <td>{{genre.genre_name}}</td>
+        </tr>
+        <tr>
+            <subtable class="subtable">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Publisher Name</th>
+                        <th scope="col">Publication Date</th>
+                        <th scope="col">Quantity</th>
+                    </tr>  
+                </thead>
+                <tbody>
+                    {% for book_genre in book_genreData %}
+                    <tr>
+                        <td>{{ book_genre.book_id }}</td>
+                        <td>{{ book_genre.title }}</td>
+                        <td>{{ book_genre.price }}</td>
+                        <td>{{ book_genre.publisher_name }}</td>
+                        <td>{{ book_genre.publication_date }}</td>
+                        <td>{{ book_genre.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </subtable>
         </tr>
     </tbody>
 </table>

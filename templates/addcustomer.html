@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Customers{% endblock %} {% block content%}
+<br/>
+<h2>Customer Details</h2>
+<br/>
+
+<form action="" method="POST">
+    <div class="form-group row">
+        <label for="customer_id">Customer ID</label>
+        <input type="number" class="form-control" name="customer_id" id="customer_id"  placeholder="Enter Customer Id" value="{{customer.customer_id}}">
+    </div>
+    <div class="form-group row">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{customer.first_name}}">
+    </div>
+    <div class="form-group row">
+        <label for="first_name">Last Name</label>
+        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name" value="{{customer.last_name}}">
+    </div>
+    <div class="form-group row">
+        <label for="gender">Gender</label>
+        <input type="number" min="0" max ="1" class="form-control" name="gender" id="gender" placeholder="Enter Gender (0 for female/1 for male)" value="{{customer.gender}}">
+    </div>
+    <div class="form-group row">
+        <label for="dob">Date of Birth</label>
+        <input type="date" class="form-control" name="dob" id="dob" placeholder="Enter the Date of Birth"value="{{customer.dob}}">
+    </div>
+    <div class="form-group row">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email"value="{{customer.email}}">
+    </div>
+    <div class="form-group row">
+        <label for="phone_number">Phone Number</label>
+        <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{3}" class="form-control" name="phone_number" id="phone_number" placeholder="Enter Phone Number format XXX-XXXX-XXX" value="{{customer.phone_number}}">
+    </div>
+    <div class="form-group row">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="Enter Address" value="{{customer.address}}">
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/customer" class="btn btn-primary">Cancel</a>
+</form>
+{% endblock %}

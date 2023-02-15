@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Customers{% endblock %} {% block content%}
+<br/>
+<h2>Customer List</h2>
+<br/>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Customer Id</th>
+			<th scope="col">First Name</th>
+			<th scope="col">Last Name</th>
+			<th scope="col">Gender</th>
+            <th scope="col">Date of Birth</th>
+			<th scope="col">Email</th>
+			<th scope="col">Phone Number</th>
+            <th scope="col">Address</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for customer in customersData %}
+		<tr>
+			<td>{{ customer.customer_id }}</td>
+			<td>{{ customer.first_name }}</td>
+			<td>{{ customer.last_name }}</td>
+            {% if customer.gender == 0 %}
+            <td>FEMALE</td>
+            {% else %}
+            <td>MALE</td>
+            {% endif %}
+			<td>{{ customer.dob }}</td>
+			<td>{{ customer.email }}</td>
+			<td>{{ customer.phone_number }}</td>
+            <td>{{ customer.address }}</td>
+			<td><a href='updatecustomer/{{ customer.customer_id }}'>Edit</a></td>
+            <td><a href='deletecustomer/{{ customer.customer_id }}'>Delete</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a class="btn btn-primary" href="addcustomer">Add New Customer</a>
+{% endblock %}

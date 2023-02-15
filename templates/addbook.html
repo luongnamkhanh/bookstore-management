@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Book Details{% endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}Books{% endblock %} {% block content%}
 <br/>
 <h2>Book Details</h2>
 <br/>
@@ -6,7 +6,7 @@
 <form action="" method="POST">
     <div class="form-group row">
         <label for="book_id">Book ID</label>
-        <input type="text" class="form-control" name="book_id" id="book_id"  placeholder="Enter Book Id" value="{{book.book_id}}">
+        <input type="number" class="form-control" name="book_id" id="book_id"  placeholder="Enter Book Id" value="{{book.book_id}}">
     </div>
     <div class="form-group row">
         <label for="title">Title</label>

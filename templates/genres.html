@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}Genres{% endblock %} {% block content%}
 <br/>
 <h2> Genre List </h2>
 <br/>
@@ -14,8 +14,8 @@
         <tr>
             <td>{{ genre.genre_id }}</td>
             <td><a href="bookgenre/{{genre.genre_id}}"> {{genre.genre_name}} </a> </td>
-            <td><a href="deletegenre/{{genre.genre_id}}"> Delete </a></td>
             <td><a href="addbookgenre/{{genre.genre_id}}"> Add new books </a></td>
+            <td><a href="deletegenre/{{genre.genre_id}}"> Delete </a></td>
         </tr>
         {% endfor %}
     </tbody>

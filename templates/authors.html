@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}Authors{% endblock %} {% block content%}
 <br/>
 <h2> Authors List </h2>
 <br/>
@@ -14,8 +14,8 @@
         <tr>
             <td>{{ author.author_id }}</td>
             <td><a href="bookauthor/{{author.author_id}}"> {{author.author_name}} </a> </td>
-            <td><a href="deleteauthor/{{author.author_id}}"> Delete </a></td>
             <td><a href="addbookauthor/{{author.author_id}}"> Add new books </a></td>
+            <td><a href="deleteauthor/{{author.author_id}}"> Delete </a></td>
         </tr>
         {% endfor %}
     </tbody>

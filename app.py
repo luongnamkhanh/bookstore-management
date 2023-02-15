@@ -9,13 +9,14 @@ from utils.order import *
 from utils.login import *
 from utils.genres import *
 from utils.authors import *
+from utils.customers import *
 
 app = Flask(__name__)
 def connection():
-    s = '' #Your server name 
+    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
     d = 'bookstore' 
     u = 'sa' #Your login
-    p = '' #Your login password
+    p = 'chuyenlik24' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -102,7 +103,6 @@ def addbook():
 # Update Book Route
 @app.route('/updatebook/<int:id>',methods = ['GET','POST'])
 def updatebook(id):
-    
     if request.method == 'GET':
         cr = []
         conn = connection()
@@ -151,7 +151,7 @@ def addbookgenre(genre_id):
         for row in cursor.fetchall():
             cr.append({"genre_id": row[0], "genre_name": row[1] })
         conn.close()
-        return render_template("addbookgenre.html", genre= cr[0])
+        return render_template("addbookgenre.html", genre= cr[0], book_genreData = findBook_genre(sqlserver,genre_id))
     if request.method == 'POST':
         book_id = request.form["book_id"]
         response = add_new_book_genre(sqlserver, genre_id, book_id)
@@ -173,7 +173,7 @@ def addbookauthor(author_id):
         for row in cursor.fetchall():
             cr.append({"author_id": row[0], "author_name": row[1] })
         conn.close()
-        return render_template("addbookauthor.html", author= cr[0])
+        return render_template("addbookauthor.html", author= cr[0], book_authorData = findBook_author(sqlserver, author_id))
     if request.method == 'POST':
         book_id = request.form["book_id"]
         response = add_new_book_author(sqlserver, author_id, book_id)
@@ -190,10 +190,10 @@ def deleteBook_genre(genre_id,book_id):
     response = deleteBook_genres(sqlserver, genre_id, book_id)
     if response == 1:
         flash("Deleted successfully!")
-        return redirect(url_for('genresRoute'))
+        return redirect(url_for('book_genreRoute', id = genre_id))
     else:
         flash("Failed", "error")
-        return redirect(url_for('genresRoute'))
+        return redirect(url_for('book_genreRoute', id = genre_id))
 
 #delete book author
 @app.route('/deletebookauthor/<int:author_id>/<int:book_id>')
@@ -201,10 +201,10 @@ def deleteBook_author(author_id,book_id):
     response = deleteBook_authors(sqlserver, author_id, book_id)
     if response == 1:
         flash("Deleted successfully!")
-        return redirect(url_for('authorsRoute'))
+        return redirect(url_for('book_authorRoute', id = author_id))
     else:
         flash("Failed", "error")
-        return redirect(url_for('authorsRoute'))
+        return redirect(url_for('book_authorRoute', id = author_id))
 
 #Add Genre Route
 @app.route('/addgenre', methods=['GET', 'POST'])
@@ -260,6 +260,76 @@ def deleteAuthors(id):
     else:
         flash("Author failed to delete!", "error")
         return redirect(url_for('authorsRoute'))
+    
+#display all customer route
+@app.route('/customer')
+def customersRoute():
+    customersData = allCustomers(sqlserver)
+    return render_template("customer.html", customersData = customersData) 
+
+#add customers route
+@app.route('/addcustomer', methods=['GET', 'POST'])
+def addCustomersRoute():
+    if request.method == 'GET':
+        return render_template("addcustomer.html", customer = None)
+    if request.method == 'POST':
+        customer_id =  int(request.form['customer_id'])
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        gender = int(request.form['gender'])
+        dob = request.form['dob']
+        email = request.form['email']
+        phone_number = request.form['phone_number']
+        address = request.form['address']
+        response = addCustomers(sqlserver,customer_id, first_name, last_name, gender, dob, email, phone_number, address)
+        if response == 1:
+            flash("Add customer successfully!")
+            return redirect(url_for('customersRoute'))
+        else: 
+            flash("Failed", "error")
+            return (redirect(url_for('addCustomersRoute')))
+    
+#delete Customer Route
+@app.route('/deletecustomer/<int:id>')
+def deleteCustomer(id):
+    response = deleteCustomers(sqlserver, id)
+    if response == 1:
+        flash("Deleted successfully!")
+        return redirect(url_for('customersRoute'))
+    else:
+        flash("Failed to delete", "error")
+        return redirect(url_for('customersRoute'))
+    
+# Update Book Route
+@app.route('/updatecustomer/<int:id>',methods = ['GET','POST'])
+def updatecustomer(id):
+    if request.method == 'GET':
+        cr = []
+        conn = connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM dbo.customers WHERE customer_id = ?", id)
+        for row in cursor.fetchall():
+            cr.append({"customer_id": row[0], "first_name": row[1], "last_name": row[2], "gender": row[3], "dob": row[4], "email": row[5], "phone_number":row[6], "address":row[7]})
+        conn.close()
+        return render_template("addcustomer.html", customer = cr[0])
+    if request.method == 'POST':
+        customer_id =  int(request.form['customer_id'])
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        gender = int(request.form['gender'])
+        dob = request.form['dob']
+        email = request.form['email']
+        phone_number = request.form['phone_number']
+        address = request.form['address']
+        response = updateCustomers(sqlserver, customer_id, first_name, last_name, gender, dob, email, phone_number, address)
+        if response == 1: #book updated successfully
+            flash("Book updated successfully!")
+            return redirect(url_for('customersRoute'))
+        else: #book failed to update
+            flash("Book failed to update!", "error")
+            return redirect(url_for('addCustomersRoute', id = id))
+        return redirect('/book')
+
 
 # logout route
 @app.route("/logout",methods = ["GET","POST"])

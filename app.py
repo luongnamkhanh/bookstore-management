@@ -14,10 +14,10 @@ from utils.staff import *
 
 app = Flask(__name__)
 def connection():
-    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
+    s = '' #Your server name 
     d = 'bookstore' 
     u = 'sa' #Your login
-    p = 'chuyenlik24' #Your login password
+    p = '' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn

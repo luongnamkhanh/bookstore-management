@@ -344,11 +344,18 @@ end;
 go 
 create procedure insert_orderlines(@orderline_id as int, @order_id as int, @book_id as int, @quantity as int)
 as begin
+if (@quantity < (select quantity from books where book_id = @book_id))
+begin
 insert into orderlines(orderline_id, order_id, book_id, quantity) values (@orderline_id, @order_id, @book_id, @quantity);
--- instantly update orders_amount
+
 update orders
 set amount = (select sum(ol.quantity*b.price) from orderlines as ol join books as b on b.book_id = ol.book_id where order_id = @order_id group by order_id)  
 where order_id = @order_id;
+end
+else
+begin
+select ERROR_MESSAGE();
+end;
 end;
 
 
@@ -430,5 +437,18 @@ create procedure delete_genres(@genre_id as int)
 as begin
 delete from genres where genre_id = @genre_id;
 end;
+
+-- delete orderlines 
+go 
+create procedure delete_orderlines(@order_id as int, @orderline_id as int)
+as begin
+delete from orderlines where orderline_id = @orderline_id and order_id = @order_id;
+update orders set amount = amount - (select ol.quantity*b.price from orderlines as ol join books as b on b.book_id = ol.book_id where orderline_id = @orderline_id)
+where order_id = @order_id; 
+end;
+
+-- index
+create index book_id_index on books(book_id);
+create index order_id_index on orders(order_id);
 
 -- -----------------------------------------------------TRANSACTION ------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 use master;
 go
+--drop database bookstore
 create database bookstore
 go
 
@@ -173,47 +174,62 @@ end;
 
 --search books by title
 go
-create procedure search_by_title(@title AS VARCHAR(255))
+create or alter procedure search_by_title(@title AS VARCHAR(255))
 as begin
 select *
 from books
-where title LIKE @title;
+where title LIKE concat('%',@title,'%');
 end;
 
 
 --search books by author_name
 go
-create procedure search_by_author(@author_name AS VARCHAR(255))
+create or alter procedure search_by_author(@title AS VARCHAR(255),@author_id AS INT)
 as begin
 select b.*
 from books as b
 join book_author as ba on b.book_id = ba.book_id
 join authors as a on a.author_id = ba.author_id
-where author_name LIKE @author_name; 
+where title LIKE concat('%',@title,'%') and a.author_id = @author_id; 
 end;
 
 
 --search books by genre_name
 go
-create procedure search_by_genre(@genre_name AS VARCHAR(255))
+create or alter procedure search_by_genre(@title AS VARCHAR(255),@genre_id AS INT)
 as begin
 select b.*
 from books as b
 join book_genre as bg on b.book_id = bg.book_id
 join genres as g on g.genre_id = bg.genre_id
-where genre_name LIKE @genre_name; 
+where title LIKE concat('%',@title,'%') and g.genre_id = @genre_id; 
 end;
 
 
 --search books by publisher_name
 go
-create procedure search_by_publisher(@publisher_name AS VARCHAR(255))
+create or alter procedure search_by_publisher(@publisher_name AS VARCHAR(255))
 as begin
 select distinct *
 from books 
-where publisher_name LIKE @publisher_name;
+where publisher_name LIKE concat('%',@publisher_name,'%');
 end;
-
+-- search genres by genre_name
+go
+create or alter procedure search_genres_by_genre_name(@genre_name AS VARCHAR(255))
+as begin
+select *
+from genres 
+where genre_name LIKE concat('%',@genre_name,'%');
+end;
+-- search authors by author_name
+go
+create or alter procedure search_authors_by_author_name(@author_name AS VARCHAR(255))
+as begin
+select *
+from authors 
+where author_name LIKE concat('%',@author_name,'%');
+end;
 
 --display all books
 go
@@ -380,7 +396,7 @@ as begin
 update orders
 set status = @new_status
 where order_id = @order_id;
-if (@new_status = 1)
+if (@new_status = 1)  
 begin 
 update book_in_orderlines
 set quantity = quantity - order_quantity

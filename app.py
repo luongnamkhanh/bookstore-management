@@ -14,10 +14,10 @@ from utils.staff import *
 
 app = Flask(__name__)
 def connection():
-    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
+    s = 'DESKTOP-APQT58G' #Your server name 
     d = 'bookstore' 
-    u = 'sa' #Your login
-    p = 'chuyenlik24' #Your login password
+    u = 'khanhluong' #Your login
+    p = 'khanh692' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -48,38 +48,67 @@ def homeRoute():
     return render_template("home.html")
 
 # genre page route
-@app.route("/genre")
+@app.route("/genre",methods = ['GET', 'POST'])
 def genresRoute():
-    genresData = allGenres(sqlserver)
-    return render_template("genres.html", genresData=genresData)
+    # genresData = allGenres(sqlserver)
+    # return render_template("genres.html", genresData=genresData)
+    if (request.method == 'GET'):
+        genresData = allGenres(sqlserver)
+        return render_template("genres.html", genresData=genresData)
+    if (request.method == 'POST'):
+        genre_name = request.form["genre_name"]
+        genresData = searchGenre(sqlserver, genre_name)
+        return render_template("genres.html", genresData=genresData)
 
 # genre page route
-@app.route('/bookgenre/<int:id>', methods=['GET'])
+@app.route('/bookgenre/<int:id>', methods=['GET', 'POST'])
 def book_genreRoute(id):
     if (request.method == 'GET'):
         book_genreData = findBook_genre(sqlserver,id)
         genresData = find_genre(sqlserver, id)
         return render_template("bookgenre.html", genresData=genresData, book_genreData=book_genreData)
-    
+    if (request.method == 'POST'):
+        genresData = find_genre(sqlserver, id)
+        title = request.form["title"]
+        book_genreData = searchTitleGenre(sqlserver, title, id)
+        return render_template("bookgenre.html",  genresData=genresData,book_genreData=book_genreData)
 # author page route
-@app.route("/author")
+@app.route("/author",methods = ['GET','POST'])
 def authorsRoute():
-    authorsData = allAuthors(sqlserver)
-    return render_template("authors.html", authorsData = authorsData)
-
+    # authorsData = allAuthors(sqlserver)
+    # return render_template("authors.html", authorsData = authorsData)
+    if (request.method == 'GET'):
+        authorsData = allAuthors(sqlserver)
+        return render_template("authors.html", authorsData = authorsData)
+    if (request.method == 'POST'):
+        author_name = request.form["author_name"]
+        authorsData = searchAuthor(sqlserver, author_name)
+        return render_template("authors.html", authorsData = authorsData)
 # author page route
-@app.route('/bookauthor/<int:id>', methods=['GET'])
+@app.route('/bookauthor/<int:id>', methods=['GET','POST'])
 def book_authorRoute(id):
     if (request.method == 'GET'):
         book_authorData = findBook_author(sqlserver,id)
         authorsData = find_author(sqlserver, id)
         return render_template("bookauthor.html", authorsData=authorsData, book_authorData = book_authorData)
-
+    if (request.method == 'POST'):
+        authorsData = find_author(sqlserver, id)
+        title = request.form["title"]
+        book_authorData = searchTitleAuthor(sqlserver, title, id)
+        return render_template("bookauthor.html",  authorsData=authorsData,book_authorData=book_authorData)
 #book route
-@app.route("/book")
+@app.route("/book",methods = ['GET','POST'])
 def bookRoute():
-    booksData = allBooks(sqlserver)
-    return render_template("book.html", booksData=booksData)
+    # booksData = allBooks(sqlserver)
+    # booksData = searchTitle(sqlserver, "")
+    # return render_template("book.html", booksData=booksData)
+    if request.method == 'GET':
+        booksData = allBooks(sqlserver)
+        return render_template("book.html", booksData=booksData)
+    if request.method == 'POST':
+        title = request.form["title"]
+        booksData = searchTitle(sqlserver, title)
+        return render_template("book.html", booksData=booksData)
 
 # Add Book Route
 @app.route("/addbook", methods = ['GET','POST'])

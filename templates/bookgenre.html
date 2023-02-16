@@ -3,6 +3,11 @@
 <h2> Genre List </h2>
 <br/>
 <table class="table">
+    <form method="post">
+        <input type="text" name="title" placeholder="Enter Title" required>
+        <input type="submit" value="Search">
+        
+      </form>
     <thead>
         <tr>
             <th scope="col">ID</th>
@@ -15,6 +20,7 @@
             <td>{{genresData[0][1]}} </a> </td>
         </tr>
         <tr>
+            
             <subtable class="subtable">
                 <thead>
                     <tr>

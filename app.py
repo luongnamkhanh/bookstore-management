@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,redirect,url_for,flash,session
+from datetime import datetime
 
 import pyodbc
 
@@ -393,6 +394,41 @@ def deleteStaffRoute(id):
             else:
                 flash('Failed to delete', "error")
                 return redirect(url_for('staffRoute')) 
+            
+#order route
+@app.route('/order')
+def orderRoute():
+    ordersData = allOrders(sqlserver)
+    return render_template('order.html', ordersData = ordersData)
+
+#add order route
+@app.route('/addorder', methods=['POST', 'GET'])
+def addOrdersRoute():
+    conn = connection()
+    cur1 = conn.cursor()
+    cur1.execute("SELECT staff_id FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    staff_data = cur1.fetchall()[0][0]
+    cur1.close()
+    if request.method == 'GET':
+        return render_template("addorder.html")
+    if request.method == 'POST':
+        cur2 = sqlserver.cursor()
+        customer_id = int(request.form['customer_id'])
+        order_date = request.form['order_date']
+        order_date2 = datetime.strptime(order_date, '%Y-%m-%dT%H:%M')
+        try:
+            cur2.execute("exec insert_orders ?,?,?", customer_id, order_date2, staff_data)
+            result = 1
+        except:
+            result = 0
+        sqlserver.commit()
+        cur2.close()
+        if result == 1:
+            flash("Add new order successfully!")
+            return redirect(url_for('orderRoute'))
+        else:
+            flash("Failed", "error")
+            return redirect(url_for('addOrdersRoute'))
 
 # logout route
 @app.route("/logout",methods = ["GET","POST"])
@@ -400,6 +436,7 @@ def logoutRoute():
     session.pop("account",None) # removing username from session variable
     session.pop("password", None)
     return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

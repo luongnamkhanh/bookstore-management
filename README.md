@@ -32,7 +32,20 @@ They can search a book by title, genre or author name.
 [!Demo]
 
 ## Project Structure
-
+ .
+    ├── static          
+    |   └── bootstrap
+    |   └── css
+    |   └── images
+    |   └── js
+    ├── templates                   # html files 
+    ├── utils                       # code files
+    ├── app.py              
+    ├── bookstore_db.sql      # tables and queries used for this project
+    ├── .gitignore
+    ├── requirements.txt
+    ├── LICENSE
+    └── README.md
 ## Entity Relationship Diagram
 ![Screenshot](./static/images/ERD.png)
 ## Schema

@@ -3,11 +3,35 @@
 <h2>Book List</h2>
 <br/>
 <!-- (A) SEARCH FORM -->
-<form method="post">
+<!-- <form method="post">
   <input type="text" name="title" placeholder="Enter Title" required>
   <input type="submit" value="Search">
   
-</form>
+</form> -->
+<form method="POST">
+	<input type="hidden" name="next" value="/">
+	<fieldset>
+
+		<div class="control-group">
+			<!-- <label class="control-label">Search by</label> -->
+			<div class="controls">
+				<select  name="search">
+					<option value="title">Title</option>
+					<option value="publisher_name">Publisher</option>
+					
+				  </select>
+			</div>
+		</div>
+		<div class="control-group">
+			<!-- <label class="control-label">Query</label> -->
+			<div class="controls">
+				<input type="text" placeholder="Enter data"  class="input-xlarge" name="query" required>
+				<input type="submit" value="Search">
+			</div>
+		</div>
+
+		
+	</fieldset>
 
 <!-- <form method="post">
 	<input type="text" name="publisher_name" placeholder="Enter Publisher Name" required>

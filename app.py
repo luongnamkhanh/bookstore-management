@@ -15,17 +15,14 @@ from utils.staff import *
 
 app = Flask(__name__)
 def connection():
-<<<<<<< HEAD
     s = 'DESKTOP-APQT58G' #Your server name 
     d = 'bookstore' 
     u = 'khanhluong' #Your login
     p = 'khanh692' #Your login password
-=======
-    s = '' #Your server name 
-    d = 'bookstore' 
-    u = 'sa' #Your login
-    p = '' #Your login password
->>>>>>> 086435739ddf9422fc05cbb6a6a969c01f43c6fd
+    # s = '' #Your server name 
+    # d = 'bookstore' 
+    # u = 'sa' #Your login
+    # p = '' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -114,9 +111,18 @@ def bookRoute():
         booksData = allBooks(sqlserver)
         return render_template("book.html", booksData=booksData)
     if request.method == 'POST':
-        title = request.form["title"]
-        booksData = searchTitle(sqlserver, title)
-        return render_template("book.html", booksData=booksData)
+        search = request.form["search"]
+        # title = request.form["title"]
+        # booksData = searchTitle(sqlserver, title)
+        # return render_template("book.html", booksData=booksData)
+        if search == "title":
+            title = request.form["query"]
+            booksData = searchTitle(sqlserver, title)
+            return render_template("book.html", booksData=booksData, search=search)
+        if search == "publisher_name":
+            publisher = request.form["query"]
+            booksData = searchPublisher(sqlserver,publisher)
+            return render_template("book.html",booksData = booksData, search=search)
 
 # Add Book Route
 @app.route("/addbook", methods = ['GET','POST'])
@@ -301,10 +307,23 @@ def deleteAuthors(id):
         return redirect(url_for('authorsRoute'))
     
 #display all customer route
-@app.route('/customer')
+@app.route('/customer',methods=['GET','POST'])
 def customersRoute():
-    customersData = allCustomers(sqlserver)
-    return render_template("customer.html", customersData = customersData) 
+    # customersData = allCustomers(sqlserver)
+    # return render_template("customer.html", customersData = customersData) 
+    if request.method == 'GET':
+        cusData = allCustomers(sqlserver)
+        return render_template("customer.html",customersData=cusData)
+    if request.method == 'POST':
+        search = request.form["search"]
+        if search == "phone_number":
+            phone_number= request.form["query"]
+            cusData = searchCustomerPhone(sqlserver,phone_number)
+            return render_template("customer.html",customersData=cusData, search=search)
+        elif search == "email":
+            email= request.form["query"]
+            cusData = searchCustomerEmail(sqlserver,email)
+            return render_template("customer.html",customersData=cusData, search=search)
 
 #add customers route
 @app.route('/addcustomer', methods=['GET', 'POST'])

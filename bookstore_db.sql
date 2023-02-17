@@ -231,6 +231,22 @@ from authors
 where author_name LIKE concat('%',@author_name,'%');
 end;
 
+-- search customers by phone_number
+go
+create or alter procedure search_customer_by_phone(@phone_number AS VARCHAR(255))
+as begin
+select *
+from customers 
+where phone_number = @phone_number;
+end;
+-- search customers by email
+go
+create or alter procedure search_customer_by_email(@email AS VARCHAR(255))
+as begin
+select *
+from customers
+where email LIKE concat('%',@email,'%');
+end;
 --display all books
 go
 create procedure all_books

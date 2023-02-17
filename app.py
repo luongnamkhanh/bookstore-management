@@ -483,13 +483,25 @@ def addOrdersRoute():
 #delete order Route
 @app.route('/deleteorder/<int:id>')
 def deleteOrderRoute(id):
-    response = deleteOrders(sqlserver, id)
+    response = approve_deleteOrders(sqlserver, id, 2)
     if response == 1:
         flash("Deleted the order successfully")
         return redirect(url_for('orderRoute'))
     else:
         flash("Failed to delete the order", "error")
         return redirect(url_for('orderRoute'))
+    
+#approve order Route
+@app.route('/approveorder/<int:id>')
+def approveOrderRoute(id):
+    response = approve_deleteOrders(sqlserver, id, 1)
+    if response == 1:
+        flash("Approved the orders")
+        return redirect(url_for('orderRoute'))
+    else:
+        flash("Failed to approve the order", "error")
+        return redirect(url_for('orderRoute'))
+
 
 # logout route
 @app.route("/logout",methods = ["GET","POST"])

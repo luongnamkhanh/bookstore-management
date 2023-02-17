@@ -7,11 +7,10 @@ def allOrders(sqlserver):
     cur.close()
     return ordersData
 
-#delete order
-def deleteOrders(sqlserver, order_id):
+def approve_deleteOrders(sqlserver, order_id, new_status):
     cur = sqlserver.cursor()
     try:
-        cur.execute("DELETE FROM orders where order_id = ?", order_id)
+        cur.execute("exec update_status_by_orderid ?, ?", order_id, new_status)
         result = 1
     except:
         result = 0

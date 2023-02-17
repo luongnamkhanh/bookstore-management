@@ -32,7 +32,6 @@ They can search a book by title, genre or author name.
 [!Demo]
 
 ## Project Structure
- .
     ├── static          
     |   └── bootstrap
     |   └── css

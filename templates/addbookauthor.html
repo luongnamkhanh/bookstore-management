@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Authors{% endblock %} {% block content%}
 <br/>
-<h2>Add Book Author</h2>
+<h2>Add/Delete Books by Author</h2>
 <br/>
 
 <table class="table">
@@ -36,6 +36,7 @@
                         <td>{{ book_author.publisher_name }}</td>
                         <td>{{ book_author.publication_date }}</td>
                         <td>{{ book_author.quantity }}</td>
+                        <td><a href='/deletebookauthor/{{author.author_id}}/{{book_author.book_id}}'>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

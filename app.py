@@ -15,17 +15,10 @@ from utils.staff import *
 
 app = Flask(__name__)
 def connection():
-<<<<<<< HEAD
-    s = 'DESKTOP-APQT58G' #Your server name 
-    d = 'bookstore' 
-    u = 'khanhluong' #Your login
-    p = 'khanh692' #Your login password
-=======
-    s = '' #Your server name 
+    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
     d = 'bookstore' 
     u = 'sa' #Your login
-    p = '' #Your login password
->>>>>>> 086435739ddf9422fc05cbb6a6a969c01f43c6fd
+    p = 'chuyenlik24' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -457,7 +450,6 @@ def addOrdersRoute():
             result = 1
         except:
             result = 0
-        sqlserver.commit()
         cur2.close()
         if result == 1:
             flash("Add new order successfully!")
@@ -465,6 +457,17 @@ def addOrdersRoute():
         else:
             flash("Failed", "error")
             return redirect(url_for('addOrdersRoute'))
+        
+#delete order Route
+@app.route('/deleteorder/<int:id>')
+def deleteOrderRoute(id):
+    response = deleteOrders(sqlserver, id)
+    if response == 1:
+        flash("Deleted the order successfully")
+        return redirect(url_for('orderRoute'))
+    else:
+        flash("Failed to delete the order", "error")
+        return redirect(url_for('orderRoute'))
 
 # logout route
 @app.route("/logout",methods = ["GET","POST"])

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Genres{% endblock %} {% block content%}
 <br/>
-<h2>Add Book Genre</h2>
+<h2>Add/Delete Books by Genre</h2>
 <br/>
 
 <table class="table">
@@ -36,6 +36,7 @@
                         <td>{{ book_genre.publisher_name }}</td>
                         <td>{{ book_genre.publication_date }}</td>
                         <td>{{ book_genre.quantity }}</td>
+                        <td><a href='/deletebookgenre/{{genre.genre_id}}/{{book_genre.book_id}}'>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -6,7 +6,8 @@
 <form method="post">
     <input type="text" name="author_name" placeholder = "Enter Author"required>
     <input type="submit" value="Search">
-  </form>
+</form>
+<br/>
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +20,7 @@
         <tr>
             <td>{{ author.author_id }}</td>
             <td><a href="bookauthor/{{author.author_id}}"> {{author.author_name}} </a> </td>
-            <td><a href="addbookauthor/{{author.author_id}}"> Add new books </a></td>
+            <td><a href="addbookauthor/{{author.author_id}}"> Add/Delete books </a></td>
             <td><a href="deleteauthor/{{author.author_id}}"> Delete </a></td>
         </tr>
         {% endfor %}

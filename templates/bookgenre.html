@@ -8,6 +8,7 @@
         <input type="submit" value="Search">
         
       </form>
+    <br/>
     <thead>
         <tr>
             <th scope="col">ID</th>
@@ -41,7 +42,6 @@
                         <td>{{ book_genre.publisher_name }}</td>
                         <td>{{ book_genre.publication_date }}</td>
                         <td>{{ book_genre.quantity }}</td>
-                        <td><a href='/deletebookgenre/{{genresData[0][0]}}/{{book_genre.book_id}}'>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

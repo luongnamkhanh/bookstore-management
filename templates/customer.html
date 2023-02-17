@@ -2,6 +2,30 @@
 <br/>
 <h2>Customer List</h2>
 <br/>
+<form method="POST">
+	<input type="hidden" name="next" value="/">
+	<fieldset>
+
+		<div class="control-group">
+			<!-- <label class="control-label">Search by</label> -->
+			<div class="controls">
+				<select  name="search">
+					<option value="phone_number">Phone Number</option>
+					<option value="email">Email</option>
+					
+				  </select>
+			</div>
+		</div>
+		<br/>
+		<div class="control-group">
+			<!-- <label class="control-label">Query</label> -->
+			<div class="controls">
+				<input type="text" placeholder="Enter data" class="input-xlarge" name="query" required>
+				<input type="submit" value="Search">
+			</div>
+		</div>
+	</fieldset>
+	<br/>
 <table class="table">
 	<thead>
 		<tr>

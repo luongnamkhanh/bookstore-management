@@ -165,7 +165,7 @@ insert into book_genre(genre_id,book_id) values(7000,13);
 
 --Login Staffs
 go 
-create procedure login_staff(@account AS VARCHAR(255), @password AS VARCHAR(255))
+create or alter procedure login_staff(@account AS VARCHAR(255), @password AS VARCHAR(255))
 as begin
 select * from staffs
 where account = @account and password = @password;
@@ -231,9 +231,25 @@ from authors
 where author_name LIKE concat('%',@author_name,'%');
 end;
 
+-- search customers by phone_number
+go
+create or alter procedure search_customer_by_phone(@phone_number AS VARCHAR(255))
+as begin
+select *
+from customers 
+where phone_number = @phone_number;
+end;
+-- search customers by email
+go
+create or alter procedure search_customer_by_email(@email AS VARCHAR(255))
+as begin
+select *
+from customers
+where email LIKE concat('%',@email,'%');
+end;
 --display all books
 go
-create procedure all_books
+create or alter procedure all_books
 as begin
 select *
 from books
@@ -241,7 +257,7 @@ end;
 
 --display all genres
 go
-create procedure all_genres
+create or alter procedure all_genres
 as begin 
 select *
 from genres
@@ -249,7 +265,7 @@ end;
 
 --display all authors
 go
-create procedure all_authors
+create or alter procedure all_authors
 as begin 
 select *
 from authors
@@ -257,7 +273,7 @@ end;
 
 --display all customers
 go
-create procedure all_customers
+create or alter procedure all_customers
 as begin
 select *
 from customers
@@ -266,7 +282,7 @@ end;
 
 --display all staffs 
 go
-create procedure all_staffs
+create or alter procedure all_staffs
 as begin
 select *
 from staffs
@@ -274,7 +290,7 @@ end;
 
 --display total sales by months
 go
-create procedure sale_by_month (@month as int, @year as int)
+create or alter procedure sale_by_month (@month as int, @year as int)
 as begin 
 select * from orders 
 where datepart(year, order_date) = @year and datepart(month, order_date)=@month and status = 1;
@@ -286,7 +302,7 @@ end;
 
 -- insert new books
 go
-create procedure insert_books(@book_id AS INT, @title AS VARCHAR(255), @price AS DECIMAL, @publisher_name AS VARCHAR(255), @publication_date AS DATE, @quantity AS INT)
+create or alter procedure insert_books(@book_id AS INT, @title AS VARCHAR(255), @price AS DECIMAL, @publisher_name AS VARCHAR(255), @publication_date AS DATE, @quantity AS INT)
 as begin
 insert into books(book_id,title,price,publisher_name,publication_date,quantity) values(@book_id, @title, @price, @publisher_name, @publication_date, @quantity);
 end;
@@ -294,7 +310,7 @@ end;
 
 -- insert new authors
 go 
-create procedure insert_authors(@author_name AS VARCHAR(255))
+create or alter procedure insert_authors(@author_name AS VARCHAR(255))
 as begin
 insert into authors(author_name) values (@author_name);
 end;
@@ -302,7 +318,7 @@ end;
 
 -- insert new genres
 go 
-create procedure insert_genres(@genre_name AS VARCHAR(255))
+create or alter procedure insert_genres(@genre_name AS VARCHAR(255))
 as begin
 insert into genres(genre_name) values (@genre_name);
 end;
@@ -310,7 +326,7 @@ end;
 
 -- insert new book_author
 go 
-create procedure insert_book_author(@author_id AS INT, @book_id AS INT)
+create or alter procedure insert_book_author(@author_id AS INT, @book_id AS INT)
 as begin
 insert into book_author(author_id, book_id) values (@author_id, @book_id);
 end;
@@ -318,7 +334,7 @@ end;
 
 -- insert new book_genre
 go 
-create procedure insert_book_genre(@genre_id AS INT, @book_id AS INT)
+create or alter procedure insert_book_genre(@genre_id AS INT, @book_id AS INT)
 as begin
 insert into book_genre(genre_id, book_id) values (@genre_id, @book_id);
 end;
@@ -326,7 +342,7 @@ end;
 
 --insert new customer
 go
-create procedure insert_customers(@customer_id AS INT, @first_name AS varchar(255), @last_name as varchar(255), @gender as int, @dob as date, @email as varchar(255), @phone_number as varchar(255), @address as varchar(255))
+create or alter procedure insert_customers(@customer_id AS INT, @first_name AS varchar(255), @last_name as varchar(255), @gender as int, @dob as date, @email as varchar(255), @phone_number as varchar(255), @address as varchar(255))
 as begin 
 insert into customers(customer_id, first_name, last_name, gender, dob, email, phone_number, address) values (@customer_id, @first_name, @last_name, @gender, @dob, @email, @phone_number, @address);
 end;
@@ -334,7 +350,7 @@ end;
 
 --insert new orders
 go 
-create procedure insert_orders(@customer_id as int, @order_date as datetime, @staff_id as int)
+create or alter procedure insert_orders(@customer_id as int, @order_date as datetime, @staff_id as int)
 as begin  
 insert into orders(customer_id, order_date, staff_id) values (@customer_id, @order_date, @staff_id);
 end;
@@ -342,7 +358,7 @@ end;
 
 --insert new orderlines
 go 
-create procedure insert_orderlines(@orderline_id as int, @order_id as int, @book_id as int, @quantity as int)
+create or alter procedure insert_orderlines(@orderline_id as int, @order_id as int, @book_id as int, @quantity as int)
 as begin
 if (@quantity < (select quantity from books where book_id = @book_id))
 begin
@@ -361,7 +377,7 @@ end;
 
 --insert new staffs
 go
-create procedure insert_staffs(@staff_id as int, @name as varchar(255), @account as varchar(255), @password as varchar(255), @role as int)
+create or alter procedure insert_staffs(@staff_id as int, @name as varchar(255), @account as varchar(255), @password as varchar(255), @role as int)
 as begin 
 insert into staffs(staff_id, name, account, password, role) values (@staff_id, @name, @account, @password, @role);
 end;
@@ -371,14 +387,14 @@ end;
 
 --update book_price by book_title 
 go
-create procedure update_book_price (@book_title as varchar(255), @new_price as decimal)
+create alter procedure update_book_price (@book_title as varchar(255), @new_price as decimal)
 as begin
 if (@new_price > 0) begin update books set price=@new_price where title LIKE @book_title end;
 end;
 
 --update book_quantity by book_id in orderlines (mannual)
 go 
-create procedure update_book_quantity(@book_id as int, @new_quantity as int)
+create alter procedure update_book_quantity(@book_id as int, @new_quantity as int)
 as begin
 if(@new_quantity >=0) 
 begin
@@ -398,7 +414,7 @@ join orderlines on books.book_id = orderlines.book_id;
 
 --update status of orders
 go
-create procedure update_status_by_orderid (@order_id as int, @new_status as int)
+create or alter procedure update_status_by_orderid (@order_id as int, @new_status as int)
 as begin  
 update orders
 set status = @new_status
@@ -419,28 +435,28 @@ end;
 
 -- delete books by book_id
 go
-create procedure delete_books(@book_id as int)
+create alter procedure delete_books(@book_id as int)
 as begin 
 delete from books where book_id = @book_id;
 end;
 
 -- delete authors by author_id
 go
-create procedure delete_authors(@author_id as int)
+create or alter procedure delete_authors(@author_id as int)
 as begin 
 delete from authors where author_id = @author_id;
 end;
 
 -- delete genres by genre_id 
 go 
-create procedure delete_genres(@genre_id as int)
+create or alter procedure delete_genres(@genre_id as int)
 as begin
 delete from genres where genre_id = @genre_id;
 end;
 
 -- delete orderlines 
 go 
-create procedure delete_orderlines(@order_id as int, @orderline_id as int)
+create or alter procedure delete_orderlines(@order_id as int, @orderline_id as int)
 as begin
 delete from orderlines where orderline_id = @orderline_id and order_id = @order_id;
 update orders set amount = amount - (select ol.quantity*b.price from orderlines as ol join books as b on b.book_id = ol.book_id where orderline_id = @orderline_id)

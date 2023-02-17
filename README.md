@@ -17,17 +17,35 @@ Staffs have a home page where all books by genre is displayed and details of boo
 They can search a book by title, genre or author name.
 
 ## Technology Stack
+* **Frontend:** [HTML, CSS, Bootstrap, Javascript]
+* **Backend:** [Python Flask]
 * **Database:** [SQL Server]
 
 ## Requirements
-
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+* [Python](https://www.python.org/)
+* [Flask](https://pypi.org/project/Flask/)
 
 ## Website Preview
 ### Admin Portal Preview
 [!Demo]
 
 ## Project Structure
-
+    ├── static          
+    |   └── bootstrap
+    |   └── css
+    |   └── images
+    |   └── js
+    ├── templates                   # html files 
+    ├── utils                       # code files
+    ├── app.py              
+    ├── bookstore_db.sql      # tables and queries used for this project
+    ├── .gitignore
+    ├── requirements.txt
+    ├── LICENSE
+    └── README.md
 ## Entity Relationship Diagram
-
+![Screenshot](./static/images/ERD.png)
 ## Schema
+![Screenshot](./static/images/Schema.png)

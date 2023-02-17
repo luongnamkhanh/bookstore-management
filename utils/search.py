@@ -51,3 +51,20 @@ def searchTitleAuthor(sqlserver,title,author_id):
     sqlserver.commit()
     cur.close()
     return booksData
+
+def searchCustomerPhone(sqlserver,phone_number):
+    cur = sqlserver.cursor()
+    cur.execute("exec search_customer_by_phone ?", phone_number)
+    cusData = cur.fetchall()
+    cusData= list(cusData)
+    sqlserver.commit()
+    cur.close()
+    return cusData
+def searchCustomerEmail(sqlserver,email):
+    cur = sqlserver.cursor()
+    cur.execute("exec search_customer_by_email ?", email)
+    cusData = cur.fetchall()
+    cusData= list(cusData)
+    sqlserver.commit()
+    cur.close()
+    return cusData

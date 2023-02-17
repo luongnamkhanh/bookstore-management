@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block title %}Orders{% endblock %} {% block content%}
+<br/>
+<h2>Order Details</h2>
+<br/>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Order Id</th>
+			<th scope="col">Customer ID</th>
+			<th scope="col">Status</th>
+            <th scope="col">Order Date</th>
+			<th scope="col">Amount</th>
+			<th scope="col">Staff ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ order.order_id }}</td>
+			<td>{{ order.customer_id }}</td>
+            {% if order.status == 0 %}
+            <td>PENDING</td>
+            {% endif %}
+            {% if order.status == 1 %}
+            <td>APPROVED</td>
+            {% endif %}
+			<td>{{ order.order_date }}</td>
+			<td>{{ order.amount }}</td>
+			<td>{{ order.staff_id }}</td>
+		</tr>
+	</tbody>
+</table>
+<br/>
+<h3>Orderlines</h3>
+<table class="table">
+    <thead>
+		<tr>
+			<th scope="col">Orderline ID</th>
+			<th scope="col">Book ID</th>
+			<th scope="col">Order Quantity</th>
+		</tr>
+    </thead>
+    <tbody>
+        {% for orderline in orderlinesData %}
+        <tr>
+            <td>{{ orderline.orderline_id }}</td>
+            <td>{{ orderline.book_id }}</td>
+            <td>{{ orderline.quantity }}</td>
+            <td><a href="/deleteorderline/{{order.order_id}}/{{orderline.orderline_id}}"> Delete </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br/>
+<h2>Add new orderlines</h2>
+<form action="" method="POST">
+    <div class="'form-group row">
+        <label for="orderline_id">Input Orderline ID</label>
+        <input type="number" class="form-control" name="orderline_id" id="orderline_id" placeholder="Orderline ID" required>
+        <label for="book_id">Input Book ID</label>
+        <input type="number" class="form-control" name="book_id" id="book_id" placeholder="Book ID" required>
+        <label for="quantity">Input Quantity</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Quantity" required>
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/order" class="btn btn-primary">Return</a>
+</form>
+{% endblock %}

@@ -47,12 +47,14 @@ create table orders(
   amount decimal,
   staff_id int
 );
+
 create table orderlines(
   orderline_id int,
   order_id int,
   book_id int,
   quantity int,
 );
+
 create table book_author(
   author_id int,
   book_id int,
@@ -459,7 +461,7 @@ go
 create or alter procedure delete_orderlines(@order_id as int, @orderline_id as int)
 as begin
 delete from orderlines where orderline_id = @orderline_id and order_id = @order_id;
-update orders set amount = amount - (select ol.quantity*b.price from orderlines as ol join books as b on b.book_id = ol.book_id where orderline_id = @orderline_id)
+update orders set amount = (select sum(ol.quantity*b.price) from orderlines as ol join books as b on b.book_id = ol.book_id where order_id = @order_id group by order_id)
 where order_id = @order_id; 
 end;
 

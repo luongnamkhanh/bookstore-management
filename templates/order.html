@@ -27,7 +27,7 @@
 			<td>{{ order.order_date }}</td>
 			<td>{{ order.amount }}</td>
 			<td>{{ order.staff_id }}</td>
-            <td><a href="orderdetail"> Details </a></td>
+            <td><a href="orderline/{{ order.order_id }}"> Details </a></td>
 			<td><a href='approveorder/{{ order.order_id }}'>Approve</a></td>
             <td><a href='deleteorder/{{ order.order_id }}'>Delete</a></td>
 		</tr>

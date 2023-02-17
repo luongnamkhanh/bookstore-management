@@ -17,7 +17,7 @@ app = Flask(__name__)
 def connection():
     s = '' #Your server name 
     d = 'bookstore' 
-    u = 'sa' #Your login
+    u = '' #Your login
     p = '' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
@@ -483,24 +483,89 @@ def addOrdersRoute():
 #delete order Route
 @app.route('/deleteorder/<int:id>')
 def deleteOrderRoute(id):
-    response = approve_deleteOrders(sqlserver, id, 2)
-    if response == 1:
-        flash("Deleted the order successfully")
+    order_status = check_order_status(sqlserver, id)
+    if order_status == 1:
+        flash("The order was approved, you cannot delete the order", "error")
         return redirect(url_for('orderRoute'))
     else:
-        flash("Failed to delete the order", "error")
-        return redirect(url_for('orderRoute'))
+        response = approve_deleteOrders(sqlserver, id, 2)
+        if response == 1:
+            flash("Deleted the order successfully")
+            return redirect(url_for('orderRoute'))
+        else:
+            flash("Failed to delete the order", "error")
+            return redirect(url_for('orderRoute'))
     
 #approve order Route
 @app.route('/approveorder/<int:id>')
 def approveOrderRoute(id):
-    response = approve_deleteOrders(sqlserver, id, 1)
-    if response == 1:
-        flash("Approved the orders")
+    conn = connection()
+    cur = conn.cursor()
+    cur.execute("SELECT role FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    role_data = cur.fetchall()[0][0]
+    cur.close()
+    if role_data == 1:
+        flash("You have no rights to approve the order", "error")
         return redirect(url_for('orderRoute'))
     else:
-        flash("Failed to approve the order", "error")
-        return redirect(url_for('orderRoute'))
+        response = approve_deleteOrders(sqlserver, id, 1)
+        if response == 1:
+            flash("Approved the orders")
+            return redirect(url_for('orderRoute'))
+        else:
+            flash("Failed to approve the order", "error")
+            return redirect(url_for('orderRoute'))
+    
+# orderline Route
+@app.route('/orderline/<int:id>', methods = ['GET', 'POST'])
+def orderlineRoute(id):
+    if request.method == 'GET':
+        order_status = check_order_status(sqlserver, id)
+        order = orderData(sqlserver, id)
+        orderlinesData = allOrderlines(sqlserver, id)
+        return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
+    if request.method == 'POST':
+        order_status = check_order_status(sqlserver, id)
+        if order_status == 1:
+            order = orderData(sqlserver, id)
+            orderlinesData = allOrderlines(sqlserver, id)
+            flash("The order was approved. You cannot add anymore", "error")
+            return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
+        if order_status == 0:
+            orderline_id = int(request.form['orderline_id'])
+            book_id = int(request.form['book_id'])
+            quantity = int(request.form['quantity'])
+            if (quantity < check_book_instock(sqlserver, book_id)):
+                response = addOrderlines(sqlserver, id, orderline_id, book_id, quantity)
+                if response == 1:
+                    order = orderData(sqlserver, id)
+                    orderlinesData = allOrderlines(sqlserver, id)
+                    flash("Added new orderlines successfully")
+                    return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
+                else:
+                    order = orderData(sqlserver, id)
+                    orderlinesData = allOrderlines(sqlserver, id)
+                    flash("Failed to add new orderlines", "error")
+                    return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
+            else:
+                flash("You cannot add more quantity than in the stock", "error")
+                return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
+            
+#delete orderline Route
+@app.route('/deleteorderline/<int:order_id>/<int:orderline_id>')
+def deleteOrderlinesRoute(order_id, orderline_id):
+    order_status = check_order_status(sqlserver, order_id)
+    if order_status == 1:
+        flash("The order was approved. You cannot add anymore", "error")
+        return redirect(url_for('orderlineRoute', id = order_id))
+    if order_status == 0:
+        response = deleteOrderlines(sqlserver, order_id, orderline_id)
+        if response == 1:
+            flash("Deleted orderlines successfully")
+            return redirect(url_for('orderlineRoute', id = order_id))
+        else:
+            flash("Failed to delete orderlines", "error")
+            return redirect(url_for('orderlineRoute', id = order_id))
 
 
 # logout route

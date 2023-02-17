@@ -17,10 +17,15 @@ Staffs have a home page where all books by genre is displayed and details of boo
 They can search a book by title, genre or author name.
 
 ## Technology Stack
+* **Frontend:** [HTML, CSS, Bootstrap, Javascript]
+* **Backend:** [Python Flask]
 * **Database:** [SQL Server]
 
 ## Requirements
-
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [MSSNS]
+* [Python](https://www.python.org/)
+* [Flask](https://pypi.org/project/Flask/)
 
 ## Website Preview
 ### Admin Portal Preview
@@ -29,5 +34,6 @@ They can search a book by title, genre or author name.
 ## Project Structure
 
 ## Entity Relationship Diagram
-
+![Screenshot](./static/images/ERD.png)
 ## Schema
+![Screenshot](./static/images/Schema.png)

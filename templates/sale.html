@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block title %}Sale Report{% endblock %} {% block content%}
+<br/>
+<h2>Sale Report</h2>
+<br/>
+<form action="" method="POST">
+    <div class="'form-group row">
+        <input type="text" class="form-control" name="day" id="day" placeholder="Day" >
+        <input type="text" class="form-control" name="month" id="month" placeholder="Month" >
+        <input type="text" class="form-control" name="year" id="year" placeholder="Year" required>
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Print</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Total Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ total }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Order Id</th>
+			<th scope="col">Customer ID</th>
+			<th scope="col">Status</th>
+            <th scope="col">Order Date</th>
+			<th scope="col">Amount</th>
+			<th scope="col">Staff ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order in ordersData %}
+		<tr>
+			<td>{{ order.order_id }}</td>
+			<td>{{ order.customer_id }}</td>
+            <td>{{ order.status }}</td>
+			<td>{{ order.order_date }}</td>
+			<td>{{ order.amount }}</td>
+			<td>{{ order.staff_id }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

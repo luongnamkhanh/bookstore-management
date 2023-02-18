@@ -31,7 +31,7 @@ create table books(
 	price float check(price >0),
 	publisher_name varchar(255),
 	publication_date date,
-	quantity int check(quantity>0),
+	quantity int check (quantity>=0) ,
 );
 
 create table authors(
@@ -44,7 +44,7 @@ create table orders(
   customer_id int,
   status int check(status in (0,1,2)) default 0, --0 pending 1 processed 2 canceled
   order_date datetime,
-  amount decimal,
+  amount float,
   staff_id int
 );
 
@@ -53,6 +53,7 @@ create table orderlines(
   order_id int,
   book_id int,
   quantity int,
+  primary key(orderline_id,order_id)
 );
 
 create table book_author(
@@ -389,14 +390,14 @@ end;
 
 --update book_price by book_title 
 go
-create alter procedure update_book_price (@book_title as varchar(255), @new_price as decimal)
+create or alter procedure update_book_price (@book_title as varchar(255), @new_price as decimal)
 as begin
 if (@new_price > 0) begin update books set price=@new_price where title LIKE @book_title end;
 end;
 
 --update book_quantity by book_id in orderlines (mannual)
 go 
-create alter procedure update_book_quantity(@book_id as int, @new_quantity as int)
+create or alter procedure update_book_quantity(@book_id as int, @new_quantity as int)
 as begin
 if(@new_quantity >=0) 
 begin
@@ -437,7 +438,7 @@ end;
 
 -- delete books by book_id
 go
-create alter procedure delete_books(@book_id as int)
+create or alter procedure delete_books(@book_id as int)
 as begin 
 delete from books where book_id = @book_id;
 end;

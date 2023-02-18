@@ -12,13 +12,14 @@ from utils.genres import *
 from utils.authors import *
 from utils.customers import *
 from utils.staff import *
+from utils.sale import *
 
 app = Flask(__name__)
 def connection():
-    s = '' #Your server name 
+    s = 'DESKTOP-APQT58G' #Your server name 
     d = 'bookstore' 
-    u = '' #Your login
-    p = '' #Your login password
+    u = 'khanhluong' #Your login
+    p = 'khanh692' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -499,22 +500,13 @@ def deleteOrderRoute(id):
 #approve order Route
 @app.route('/approveorder/<int:id>')
 def approveOrderRoute(id):
-    conn = connection()
-    cur = conn.cursor()
-    cur.execute("SELECT role FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
-    role_data = cur.fetchall()[0][0]
-    cur.close()
-    if role_data == 1:
-        flash("You have no rights to approve the order", "error")
+    response = approve_deleteOrders(sqlserver, id, 1)
+    if response == 1:
+        flash("Approved the orders")
         return redirect(url_for('orderRoute'))
     else:
-        response = approve_deleteOrders(sqlserver, id, 1)
-        if response == 1:
-            flash("Approved the orders")
-            return redirect(url_for('orderRoute'))
-        else:
-            flash("Failed to approve the order", "error")
-            return redirect(url_for('orderRoute'))
+        flash("Failed to approve the order", "error")
+        return redirect(url_for('orderRoute'))
     
 # orderline Route
 @app.route('/orderline/<int:id>', methods = ['GET', 'POST'])
@@ -535,8 +527,9 @@ def orderlineRoute(id):
             orderline_id = int(request.form['orderline_id'])
             book_id = int(request.form['book_id'])
             quantity = int(request.form['quantity'])
-            if (quantity < check_book_instock(sqlserver, book_id)):
+            if (quantity <= check_book_instock(sqlserver, book_id)):
                 response = addOrderlines(sqlserver, id, orderline_id, book_id, quantity)
+                
                 if response == 1:
                     order = orderData(sqlserver, id)
                     orderlinesData = allOrderlines(sqlserver, id)
@@ -548,6 +541,8 @@ def orderlineRoute(id):
                     flash("Failed to add new orderlines", "error")
                     return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
             else:
+                order = orderData(sqlserver, id)
+                orderlinesData = allOrderlines(sqlserver, id)
                 flash("You cannot add more quantity than in the stock", "error")
                 return render_template('orderline.html', order = order, orderlinesData = orderlinesData)
             
@@ -556,7 +551,7 @@ def orderlineRoute(id):
 def deleteOrderlinesRoute(order_id, orderline_id):
     order_status = check_order_status(sqlserver, order_id)
     if order_status == 1:
-        flash("The order was approved. You cannot add anymore", "error")
+        flash("The order was approved. You cannot delete anymore", "error")
         return redirect(url_for('orderlineRoute', id = order_id))
     if order_status == 0:
         response = deleteOrderlines(sqlserver, order_id, orderline_id)
@@ -566,6 +561,26 @@ def deleteOrderlinesRoute(order_id, orderline_id):
         else:
             flash("Failed to delete orderlines", "error")
             return redirect(url_for('orderlineRoute', id = order_id))
+
+#sale route
+@app.route('/sale', methods = ['GET', 'POST'])
+def saleRoute():
+    if request.method == 'GET':
+        return render_template('sale.html')
+    if request.method == 'POST':
+        day = request.form['day']
+        month = request.form['month']
+        year = request.form['year']
+        if day == "" and month != "" and year != "":
+            
+            saleData,totalAmount = totalSalebyMonth(sqlserver, month, year)
+            return render_template('sale.html', ordersData = saleData,total=totalAmount)
+        if day == "" and month == "" and year != "":
+            saleData ,totalAmount= totalSalebyYear(sqlserver, year)
+            return render_template('sale.html', ordersData = saleData,total=totalAmount)
+        if day != "" and month != "" and year != "":
+            saleData,totalAmount = totalSalebyDay(sqlserver, day, month, year)
+            return render_template('sale.html', ordersData = saleData,total=totalAmount)
 
 
 # logout route

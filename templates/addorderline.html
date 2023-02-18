@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block title %}OrderLines{% endblock %} {% block content%}
+
+<h2>Add new orderlines</h2>
+<form action="" method="POST">
+    <div class="'form-group row">
+        <label for="orderline_id">Input Orderline ID</label>
+        <input type="number" class="form-control" name="orderline_id" id="orderline_id" placeholder="Orderline ID" required>
+        <label for="book_id">Input Book ID</label>
+        <input type="number" class="form-control" name="book_id" id="book_id" placeholder="Book ID" required>
+        <label for="quantity">Input Quantity</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Quantity" required>
+    </div>
+    <button type="btnAdd" class="btn btn-primary">Submit</button>
+    <a href="/order" class="btn btn-primary">Return</a>
+</form>
+
+{% endblock %}

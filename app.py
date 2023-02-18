@@ -16,10 +16,10 @@ from utils.sale import *
 
 app = Flask(__name__)
 def connection():
-    s = 'DESKTOP-APQT58G' #Your server name 
+    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
     d = 'bookstore' 
-    u = 'khanhluong' #Your login
-    p = 'khanh692' #Your login password
+    u = 'sa' #Your login
+    p = '' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -572,24 +572,23 @@ def saleRoute():
         month = request.form['month']
         year = request.form['year']
         if day == "" and month != "" and year != "":
-            
             saleData,totalAmount,response = totalSalebyMonth(sqlserver, month, year)
             if response == 1:
                 return render_template('sale.html', ordersData = saleData,total=totalAmount)
             else:
                 flash("No sale in this month", "error")
                 return render_template('sale.html')
-        if day == "" and month == "" and year != "":
-            saleData ,totalAmount,response= totalSalebyYear(sqlserver, year)
-            if response == 1:
-                return render_template('sale.html', ordersData = saleData,total=totalAmount)
+        elif day == "" and month == "" and year != "":
+            saleData1,totalAmount1,response1= totalSalebyYear(sqlserver, year)
+            if response1 == 1:
+                return render_template('sale.html', ordersData = saleData1,total=totalAmount1)
             else:
                 flash("No sale in this year", "error")
                 return render_template('sale.html')
-        if day != "" and month != "" and year != "":
-            saleData,totalAmount,response= totalSalebyDay(sqlserver, day, month, year)
-            if response == 1:
-                return render_template('sale.html', ordersData = saleData,total=totalAmount)
+        elif day != "" and month != "" and year != "":
+            saleData2,totalAmount2,response2= totalSalebyDay(sqlserver, day, month, year)
+            if response2 == 1:
+                return render_template('sale.html', ordersData = saleData2,total=totalAmount2)
             else:
                 flash("No sale in this day", "error")
                 return render_template('sale.html')

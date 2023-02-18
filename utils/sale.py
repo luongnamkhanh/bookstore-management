@@ -32,7 +32,7 @@ def totalSalebyYear(sqlserver, year):
         result = 0
     sqlserver.commit()
     cur.close()
-    return saleData,totalAmount, result
+    return saleData,totalAmount,result
 
 #display total sale by day
 def totalSalebyDay(sqlserver, day, month, year):

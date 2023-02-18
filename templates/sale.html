@@ -4,24 +4,15 @@
 <br/>
 <form action="" method="POST">
     <div class="'form-group row">
-        <input type="text" class="form-control" name="day" id="day" placeholder="Day" >
-        <input type="text" class="form-control" name="month" id="month" placeholder="Month" >
+        <input type="text" class="form-control" name="day" id="day" placeholder="Day" value="">
+        <input type="text" class="form-control" name="month" id="month" placeholder="Month" value="">
         <input type="text" class="form-control" name="year" id="year" placeholder="Year" required>
     </div>
+	<br/>
     <button type="btnAdd" class="btn btn-primary">Print</button>
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Total Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ total }}</td>
-        </tr>
-    </tbody>
-</table>
+<br/>
+<h3>Order Lists</h3>
 <table class="table">
 	<thead>
 		<tr>
@@ -45,5 +36,17 @@
 		</tr>
 		{% endfor %}
 	</tbody>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Total Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ total }}</td>
+        </tr>
+    </tbody>
 </table>
 {% endblock %}

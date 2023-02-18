@@ -573,14 +573,26 @@ def saleRoute():
         year = request.form['year']
         if day == "" and month != "" and year != "":
             
-            saleData,totalAmount = totalSalebyMonth(sqlserver, month, year)
-            return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            saleData,totalAmount,response = totalSalebyMonth(sqlserver, month, year)
+            if response == 1:
+                return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            else:
+                flash("No sale in this month", "error")
+                return render_template('sale.html')
         if day == "" and month == "" and year != "":
-            saleData ,totalAmount= totalSalebyYear(sqlserver, year)
-            return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            saleData ,totalAmount,response= totalSalebyYear(sqlserver, year)
+            if response == 1:
+                return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            else:
+                flash("No sale in this year", "error")
+                return render_template('sale.html')
         if day != "" and month != "" and year != "":
-            saleData,totalAmount = totalSalebyDay(sqlserver, day, month, year)
-            return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            saleData,totalAmount,response= totalSalebyDay(sqlserver, day, month, year)
+            if response == 1:
+                return render_template('sale.html', ordersData = saleData,total=totalAmount)
+            else:
+                flash("No sale in this day", "error")
+                return render_template('sale.html')
 
 
 # logout route

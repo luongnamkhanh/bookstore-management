@@ -298,7 +298,20 @@ as begin
 select * from orders 
 where datepart(year, order_date) = @year and datepart(month, order_date)=@month and status = 1;
 end;
-
+--display total sales by days
+go
+create or alter procedure sale_by_day (@day as int,@month as int, @year as int)
+as begin 
+select * from orders 
+where datepart(year, order_date) = @year and datepart(month, order_date)=@month and datepart(day,order_date)=@day and status = 1;
+end;
+--display total sales by years
+go
+create or alter procedure sale_by_year ( @year as int)
+as begin 
+select * from orders 
+where datepart(year, order_date) = @year  and status = 1;
+end;
 
 
 -- -----------------------------------------------------INSERT -----------------------------------------------------------------------------
@@ -363,7 +376,7 @@ end;
 go 
 create or alter procedure insert_orderlines(@orderline_id as int, @order_id as int, @book_id as int, @quantity as int)
 as begin
-if (@quantity < (select quantity from books where book_id = @book_id))
+if (@quantity <= (select quantity from books where book_id = @book_id))
 begin
 insert into orderlines(orderline_id, order_id, book_id, quantity) values (@orderline_id, @order_id, @book_id, @quantity);
 
@@ -467,7 +480,7 @@ where order_id = @order_id;
 end;
 
 -- index
-create index book_id_index on books(book_id);
-create index order_id_index on orders(order_id);
-
+--create index book_id_index on books(book_id);
+--create index order_id_index on orders(order_id);
+ 
 -- -----------------------------------------------------TRANSACTION ------------------------------------------------------------------------

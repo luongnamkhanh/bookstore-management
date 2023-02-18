@@ -4,7 +4,7 @@ An application with only one protal - staff.
 Feature by roles:  
 In our expectations, the staff may have these main functions: 
   - Make new orders
-  - Search by given information​ (Based on the title, the publisher’s name, the publication's date the author or the genre) 
+  - Search by given information​ (Based on the title, the publisher’s name, the author or the genre) 
   - Check (daily/monthly/annually) sales​ 
   - Manage book:​ 
     - Access to view the available books => Manage quantities​ 

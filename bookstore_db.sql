@@ -1,7 +1,10 @@
 use master;
 go
+
+drop database if exists bookstore;
+go
 --drop database bookstore
-create database bookstore
+create database bookstore;
 go
 
 use bookstore;

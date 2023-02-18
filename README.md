@@ -4,7 +4,7 @@ An application with only one protal - staff.
 Feature by roles:  
 In our expectations, the staff may have these main functions: 
   - Make new orders
-  - Search by given information​ (Based on the title, the publisher’s name, the publication date or topic) 
+  - Search by given information​ (Based on the title, the publisher’s name, the author or the genre) 
   - Check (daily/monthly/annually) sales​ 
   - Manage book:​ 
     - Access to view the available books => Manage quantities​ 
@@ -13,8 +13,7 @@ In our expectations, the staff may have these main functions:
   - Manage the information of customers (Name, phone number, address, d.o.b…) <br>
 Manager: Add/Delete account of staffs​ 
 
-Staffs have a home page where all books by genre is displayed and details of book will be displayed on clicking a particular book.
-They can search a book by title, genre or author name.
+
 
 ## Technology Stack
 * **Frontend:** [HTML, CSS, Bootstrap, Javascript]

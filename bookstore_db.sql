@@ -188,7 +188,7 @@ where title LIKE concat('%',@title,'%');
 end;
 
 
---search books by author_name
+--search books by title with given author_id
 go
 create or alter procedure search_by_author(@title AS VARCHAR(255),@author_id AS INT)
 as begin
@@ -200,7 +200,7 @@ where title LIKE concat('%',@title,'%') and a.author_id = @author_id;
 end;
 
 
---search books by genre_name
+--search books by title with given genre_id
 go
 create or alter procedure search_by_genre(@title AS VARCHAR(255),@genre_id AS INT)
 as begin
@@ -404,25 +404,7 @@ end;
 
 -- -----------------------------------------------------UPDATE -----------------------------------------------------------------------------
 
---update book_price by book_title 
-go
-create or alter procedure update_book_price (@book_title as varchar(255), @new_price as decimal)
-as begin
-if (@new_price > 0) begin update books set price=@new_price where title LIKE @book_title end;
-end;
-
---update book_quantity by book_id in orderlines (mannual)
-go 
-create or alter procedure update_book_quantity(@book_id as int, @new_quantity as int)
-as begin
-if(@new_quantity >=0) 
-begin
-update books
-set quantity = @new_quantity
-where book_id = @book_id;
-end;
-end;
-
+--update status of orders
 --create a temporary view
 go
 create view book_in_orderlines
@@ -430,8 +412,7 @@ as
 select books.*, orderlines.quantity as order_quantity, orderlines.order_id
 from books
 join orderlines on books.book_id = orderlines.book_id;
-
---update status of orders
+--update status by order_id
 go
 create or alter procedure update_status_by_orderid (@order_id as int, @new_status as int)
 as begin  

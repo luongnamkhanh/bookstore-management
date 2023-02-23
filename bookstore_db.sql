@@ -438,17 +438,36 @@ as begin
 update orders
 set status = @new_status
 where order_id = @order_id;
-if (@new_status = 1)  
-begin 
-update book_in_orderlines
-set quantity = quantity - order_quantity
-where order_id = @order_id;
 end;
-if (@new_status = 2)
-begin
-delete from orders where order_id = @order_id;
-end;
-end;
+CREATE OR ALTER TRIGGER update_book_in_orderlines
+ON orders
+AFTER UPDATE
+AS
+BEGIN
+  -- Check if the status column has been updated
+  IF UPDATE(status)
+  BEGIN
+    -- Get the old and new values of the status column
+    DECLARE @old_status int, @new_status int;
+    SELECT @old_status = status FROM deleted;
+    SELECT @new_status = status FROM inserted;
+
+    -- Check if the new status is 1
+    IF @new_status = 1
+    BEGIN
+      -- Update the book_in_orderlines table
+      UPDATE book_in_orderlines
+      SET quantity = quantity - order_quantity
+      WHERE order_id IN (SELECT order_id FROM inserted);
+    END
+    -- Check if the new status is 2
+    ELSE IF @new_status = 2
+    BEGIN
+      -- Delete the order from the orders table
+      DELETE FROM orders WHERE order_id IN (SELECT order_id FROM inserted);
+    END
+  END
+END;
 
 -- -----------------------------------------------------DELETE -----------------------------------------------------------------------------
 

@@ -16,10 +16,10 @@ from utils.sale import *
 
 app = Flask(__name__)
 def connection():
-    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
+    s = 'DESKTOP-APQT58G' #Your server name 
     d = 'bookstore' 
-    u = 'sa' #Your login
-    p = '' #Your login password
+    u = 'khanhluong' #Your login
+    p = 'khanh692' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn

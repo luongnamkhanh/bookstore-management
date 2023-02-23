@@ -45,6 +45,6 @@ Manager: Add/Delete account of staffs​
     ├── LICENSE
     └── README.md
 ## Entity Relationship Diagram
-![Screenshot](./static/images/ERD.png)
+![Screenshot](./static/images/erd.jpeg)
 ## Schema
 ![Screenshot](./static/images/Schema.png)

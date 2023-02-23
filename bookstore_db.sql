@@ -481,7 +481,12 @@ delete from orderlines where orderline_id = @orderline_id and order_id = @order_
 update orders set amount = (select sum(ol.quantity*b.price) from orderlines as ol join books as b on b.book_id = ol.book_id where order_id = @order_id group by order_id)
 where order_id = @order_id; 
 end;
-
+-- delete staffs
+go
+create or alter procedure delete_staffs(@staff_id as int)
+as begin
+delete from staffs where staff_id = @staff_id;
+end;
 -- index
 --create index book_id_index on books(book_id);
 --create index order_id_index on orders(order_id);

@@ -47,4 +47,4 @@ Manager: Add/Delete account of staffs​
 ## Entity Relationship Diagram
 ![Screenshot](./static/images/erd.jpg)
 ## Schema
-![Screenshot](./static/images/Schema.png)
+![Screenshot](./static/images/schema.png)

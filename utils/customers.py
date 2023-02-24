@@ -9,10 +9,10 @@ def allCustomers(sqlserver):
     return customersData
 
 #add customers
-def addCustomers(sqlserver, customer_id, first_name, last_name, gender, dob, email, phone_number, address):
+def addCustomers(sqlserver, customer_id, first_name, last_name, gender, dob, email, phone_number, address, staff_id):
     cur = sqlserver.cursor()
     try:
-        cur.execute("exec insert_customers ?, ?, ?, ?, ?, ?, ?, ?", customer_id, first_name, last_name, gender, dob, email, phone_number, address)
+        cur.execute("exec insert_customers ?, ?, ?, ?, ?, ?, ?, ?,?", customer_id, first_name, last_name, gender, dob, email, phone_number, address, staff_id)
         result = 1
     except:
         result = 0

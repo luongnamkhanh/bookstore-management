@@ -18,7 +18,8 @@ create table customers(
 	dob date,
 	email varchar(255),
 	phone_number varchar(50),
-	address varchar(255)
+	address varchar(255),
+	staff_id int
 );
 create table staffs(
 	staff_id int primary key,
@@ -81,7 +82,7 @@ create table adminstrator(
 
 
 -- -----------------------------------------------------FOREIGN KEYS-----------------------------------------------------------------------------
- 
+
 -- Foreign Keys in orders 
 alter table orders add foreign key (customer_id) references customers(customer_id) on update cascade on delete NO ACTION; 
 alter table orders add foreign key (staff_id) references staffs(staff_id) on update cascade on delete NO ACTION; 
@@ -94,6 +95,8 @@ alter table book_author add foreign key (book_id) references books(book_id) on u
 -- Foreign Keys in book_genre
 alter table book_genre add foreign key (genre_id) references genres(genre_id) on update cascade on delete cascade;
 alter table book_genre add foreign key (book_id) references books(book_id) on update cascade on delete cascade;
+-- Foreign Keys in customers
+alter table customers add foreign key (staff_id) references staffs(staff_id) on update NO ACTION on delete NO ACTION;
 
 -- -----------------------------------------------------INSERT INTO TABLE -----------------------------------------------------------------------------
  
@@ -361,9 +364,9 @@ end;
 
 --insert new customer
 go
-create or alter procedure insert_customers(@customer_id AS INT, @first_name AS varchar(255), @last_name as varchar(255), @gender as int, @dob as date, @email as varchar(255), @phone_number as varchar(255), @address as varchar(255))
+create or alter procedure insert_customers(@customer_id AS INT, @first_name AS varchar(255), @last_name as varchar(255), @gender as int, @dob as date, @email as varchar(255), @phone_number as varchar(255), @address as varchar(255), @staff_id as int)
 as begin 
-insert into customers(customer_id, first_name, last_name, gender, dob, email, phone_number, address) values (@customer_id, @first_name, @last_name, @gender, @dob, @email, @phone_number, @address);
+insert into customers(customer_id, first_name, last_name, gender, dob, email, phone_number, address, staff_id) values (@customer_id, @first_name, @last_name, @gender, @dob, @email, @phone_number, @address, @staff_id);
 end;
 
 

@@ -16,10 +16,10 @@ from utils.sale import *
 
 app = Flask(__name__)
 def connection():
-    s = 'DESKTOP-7KES151\HUYNT' #Your server name 
+    s = 'DESKTOP-APQT58G' #Your server name 
     d = 'bookstore' 
-    u = 'sa' #Your login
-    p = '' #Your login password
+    u = 'khanhluong' #Your login
+    p = 'khanh692' #Your login password
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
@@ -325,6 +325,11 @@ def customersRoute():
 #add customers route
 @app.route('/addcustomer', methods=['GET', 'POST'])
 def addCustomersRoute():
+    conn = connection()
+    cur1 = conn.cursor()
+    cur1.execute("SELECT staff_id FROM staffs where account LIKE ? AND password LIKE ?", session["account"], session["password"])
+    staff_data = cur1.fetchall()[0][0]
+    cur1.close()
     if request.method == 'GET':
         return render_template("addcustomer.html", customer = None)
     if request.method == 'POST':
@@ -336,7 +341,7 @@ def addCustomersRoute():
         email = request.form['email']
         phone_number = request.form['phone_number']
         address = request.form['address']
-        response = addCustomers(sqlserver,customer_id, first_name, last_name, gender, dob, email, phone_number, address)
+        response = addCustomers(sqlserver,customer_id, first_name, last_name, gender, dob, email, phone_number, address, staff_data)
         if response == 1:
             flash("Add customer successfully!")
             return redirect(url_for('customersRoute'))

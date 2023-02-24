@@ -37,6 +37,7 @@
 			<th scope="col">Email</th>
 			<th scope="col">Phone Number</th>
             <th scope="col">Address</th>
+			<th scope="col">Staff Id</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -54,6 +55,7 @@
 			<td>{{ customer.email }}</td>
 			<td>{{ customer.phone_number }}</td>
             <td>{{ customer.address }}</td>
+			<td>{{ customer.staff_id}}</td>
 			<td><a href='updatecustomer/{{ customer.customer_id }}'>Edit</a></td>
             <td><a href='deletecustomer/{{ customer.customer_id }}'>Delete</a></td>
 		</tr>

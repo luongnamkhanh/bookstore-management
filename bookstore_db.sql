@@ -412,6 +412,7 @@ as
 select books.*, orderlines.quantity as order_quantity, orderlines.order_id
 from books
 join orderlines on books.book_id = orderlines.book_id;
+
 --update status by order_id
 go
 create or alter procedure update_status_by_orderid (@order_id as int, @new_status as int)
@@ -420,6 +421,9 @@ update orders
 set status = @new_status
 where order_id = @order_id;
 end;
+
+--trigger auto update
+go
 CREATE OR ALTER TRIGGER update_book_in_orderlines
 ON orders
 AFTER UPDATE
@@ -487,8 +491,10 @@ create or alter procedure delete_staffs(@staff_id as int)
 as begin
 delete from staffs where staff_id = @staff_id;
 end;
+
 -- index
---create index book_id_index on books(book_id);
---create index order_id_index on orders(order_id);
  
--- -----------------------------------------------------TRANSACTION ------------------------------------------------------------------------
+-- -----------------------------------------------------INDEX ------------------------------------------------------------------------
+
+create index book_title_index on books(title);
+create index publisher_name_index on books(publisher_name);

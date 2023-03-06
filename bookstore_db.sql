@@ -104,15 +104,131 @@ alter table customers add foreign key (staff_id) references staffs(staff_id) on 
 insert into adminstrator(account,password) values('admin','123456');
  
  -- authors
-insert into Authors(author_name) values('Robert Stevenson');
-insert into Authors(author_name) values('Jon Krakauer');
-insert into Authors(author_name) values('John Green');
-insert into Authors(author_name) values('Colleen Hover');
-insert into Authors(author_name) values('Jane Austen');
-insert into Authors(author_name) values('Gillian Flynn');
-insert into Authors(author_name) values('Peter Straub');
+INSERT INTO authors (author_name)
+VALUES 
+('J.K. Rowling'), 
+('Stephen King'), 
+('George R.R. Martin'), 
+('J.R.R. Tolkien'), 
+('Agatha Christie'), 
+('Dan Brown'), 
+('Neil Gaiman'), 
+('Harper Lee'), 
+('Margaret Atwood'), 
+('Philip Pullman'),
+('Terry Pratchett'),
+('Roald Dahl'),
+('Khaled Hosseini'),
+('Arthur Conan Doyle'),
+('Jane Austen'),
+('F. Scott Fitzgerald'),
+('Leo Tolstoy'),
+('Charles Dickens'),
+('Mark Twain'),
+('Charlotte Bronte'),
+('Emily Bronte'),
+('Edgar Allan Poe'),
+('Virginia Woolf'),
+('Ernest Hemingway'),
+('William Faulkner'),
+('Gabriel Garcia Marquez'),
+('James Joyce'),
+('Chinua Achebe'),
+('Maya Angelou'),
+('Toni Morrison'),
+('Zadie Smith'),
+('Sylvia Plath'),
+('Cormac McCarthy'),
+('Don DeLillo'),
+('David Foster Wallace'),
+('Franz Kafka'),
+('Hermann Hesse'),
+('Albert Camus'),
+('J.D. Salinger'),
+('John Steinbeck'),
+('Jack Kerouac'),
+('Ken Kesey'),
+('George Orwell'),
+('Aldous Huxley'),
+('Ray Bradbury'),
+('Isaac Asimov'),
+('Ursula K. Le Guin'),
+('Octavia Butler'),
+('Margaret Peterson Haddix'),
+('Veronica Roth'),
+('Suzanne Collins'),
+('J.K. Rowling'),
+('Rick Riordan'),
+('J.R.R. Tolkien'),
+('George R.R. Martin'),
+('Stephenie Meyer'),
+('Stephen King'),
+('Haruki Murakami'),
+('Gillian Flynn'),
+('Paula Hawkins'),
+('John Grisham'),
+('Michael Connelly'),
+('Dean Koontz'),
+('David Baldacci'),
+('James Patterson'),
+('Dan Brown'),
+('Jo Nesbo'),
+('Stieg Larsson'),
+('Agatha Christie'),
+('Patricia Cornwell'),
+('Kathy Reichs'),
+('Tess Gerritsen'),
+('Mary Higgins Clark'),
+('James Rollins'),
+('Clive Cussler'),
+('Lee Child'),
+('Jeffery Deaver'),
+('Karin Slaughter'),
+('Lisa Gardner'),
+('J.D. Robb'),
+('Janet Evanovich'),
+('Nora Roberts'),
+('Kristin Hannah'),
+('Jodi Picoult'),
+('Nicholas Sparks'),
+('John Green'),
+('Khaled Hosseini'),
+('Mitch Albom'),
+('Dan Brown'),
+('Neil Gaiman'),
+('Markus Zusak'),
+('Paolo Coelho'),
+('Yann Martel'),
+('Graeme Simsion'),
+('David Mitchell'),
+('Hanya Yanagihara'),
+('Anthony Doerr'),
+('Donna Tartt'),
+('George Saunders'),
+('Jeffrey Eugenides'),
+('Jonathan Franzen'),
+('Junot Diaz'),
+('Margaret Atwood'),
+('Zadie Smith'),
+('Chimamanda Ngozi Adichie'),
+('Arundhati Roy'),
+('Jhumpa Lahiri'),
+('Haruki Murakami'),
+('Kazuo Ishiguro'),
+('Gabriel Garcia Marquez'),
+('Isabel Allende'),
+('Laura Esquivel'),
+('Julia Alvarez'),
+('N.K. Jemisin'),
+('Ted Chiang'),
+('Stephen Graham Jones'),
+('Cixin Liu'),
+('Nnedi Okorafor'),
+('Marlon James');
+
 
  -- books
+ -- Insert 1000 random rows of sample data
 insert into books(book_id,title,price,publisher_name,publication_date,quantity) values(1,'Treasure Island',345.12,'Kim Dong','1990-12-12',10);
 insert into Books(book_id,title,price,publisher_name,publication_date,quantity) values(2,'Life of Pi',295.56,'Nha Nam','2022-01-12',10);
 insert into Books(book_id,title,price,publisher_name,publication_date,quantity) values(3,'Black House',800.36,'Tre','2002-09-06',5);
@@ -126,49 +242,93 @@ insert into Books(book_id,title,price,publisher_name,publication_date,quantity) 
 insert into Books(book_id,title,price,publisher_name,publication_date,quantity) values(11,'Pride & Prejudice',295.78,'Kim Dong','1813-08-12',95);
 insert into Books(book_id,title,price,publisher_name,publication_date,quantity) values(12,'Mysteries of Udolpho',795.67,'Tre','1993-05-20',5);
 insert into Books(book_id,title,price,publisher_name,publication_date,quantity) values(13,'Into Thin Air',568.91,'Tre','1964-12-12',68);
+-- 
+DECLARE @counter INT = 14
+WHILE @counter <= 1000
+BEGIN
+    INSERT INTO books (book_id, title, price, publisher_name, publication_date, quantity)
+    VALUES
+        (@counter, 'Title ' + CAST(@counter AS VARCHAR(10)), RAND()*100, 'Publisher ' + CAST(FLOOR(RAND()*10) AS VARCHAR(10)), DATEADD(DAY, -CAST(RAND()*20000 AS INT), GETDATE()), CAST(RAND()*100 AS INT))
+    SET @counter = @counter + 1
+END;
 
  -- staffs
 insert into staffs(staff_id,name,account,password,role) values(1,'Khanh','staff1','1',2);
 insert into staffs(staff_id,name,account,password,role) values(2,'Tu','staff2','1',2);
 insert into staffs(staff_id,name,account,password,role) values(3,'Huy','staff3','1',1);
 
- -- book_author
-insert into book_author(author_id,book_id) values(500,1);
-insert into book_author(author_id,book_id) values(500,2);
-insert into book_author(author_id,book_id) values(506,3);
-insert into book_author(author_id,book_id) values(506,4);
-insert into book_author(author_id,book_id) values(505,5);
-insert into book_author(author_id,book_id) values(505,6);
-insert into book_author(author_id,book_id) values(502,7);
-insert into book_author(author_id,book_id) values(502,8);
-insert into book_author(author_id,book_id) values(503,9);
-insert into book_author(author_id,book_id) values(503,10);
-insert into book_author(author_id,book_id) values(504,11);
-insert into book_author(author_id,book_id) values(504,12);
-insert into book_author(author_id,book_id) values(501,13);
-insert into book_author(author_id,book_id) values(502,13);
-
+ --book_author
+DECLARE @counter INT = 1
+WHILE @counter <= 1000
+BEGIN
+    INSERT INTO book_author (author_id,book_id)
+    VALUES
+        (CAST((RAND()*(618-500)+500) AS INT),@counter)
+    SET @counter = @counter + 1
+END;
  --genres
-insert into genres(genre_name) values('Adventure');
-insert into genres(genre_name) values('Horror');
-insert into genres(genre_name) values('Mystery');
-insert into genres(genre_name) values('Romance');
+INSERT INTO genres (genre_name) VALUES
+('Action'),
+('Comedy'),
+('Drama'),
+('Horror'),
+('Romance'),
+('Thriller'),
+('Science Fiction'),
+('Adventure'),
+('Animation'),
+('Documentary'),
+('Fantasy'),
+('Mystery'),
+('Crime'),
+('Historical'),
+('Musical'),
+('Western'),
+('War'),
+('Superhero'),
+('Spy'),
+('Family'),
+('Sports'),
+('Disaster'),
+('Comedy-drama'),
+('Satire'),
+('Parody'),
+('Romantic comedy'),
+('Period drama'),
+('Teen'),
+('Action-adventure'),
+('Social drama'),
+('Historical drama'),
+('Melodrama'),
+('Slasher'),
+('Supernatural'),
+('Epic'),
+('Neo-noir'),
+('Political drama'),
+('Coming-of-age'),
+('Heist'),
+('Black comedy'),
+('Buddy'),
+('Chick flick'),
+('Caper'),
+('Road'),
+('Sports drama'),
+('Gangster'),
+('Space opera'),
+('True Crime'),
+('Zombie'),
+('Apocalyptic');
 
- --book_genre
-insert into book_genre(genre_id,book_id) values(7000,1);
-insert into book_genre(genre_id,book_id) values(7000,2);
-insert into book_genre(genre_id,book_id) values(7001,3);
-insert into book_genre(genre_id,book_id) values(7001,4);
-insert into book_genre(genre_id,book_id) values(7001,5);
-insert into book_genre(genre_id,book_id) values(7002,6);
-insert into book_genre(genre_id,book_id) values(7002,7);
-insert into book_genre(genre_id,book_id) values(7003,8);
-insert into book_genre(genre_id,book_id) values(7002,9);
-insert into book_genre(genre_id,book_id) values(7003,10);
-insert into book_genre(genre_id,book_id) values(7003,11);
-insert into book_genre(genre_id,book_id) values(7001,12);
-insert into book_genre(genre_id,book_id) values(7002,12);
-insert into book_genre(genre_id,book_id) values(7000,13);
+--book_genre
+DECLARE @counter INT = 1
+WHILE @counter <= 1000
+BEGIN
+    INSERT INTO book_genre (genre_id,book_id)
+    VALUES
+        (CAST((RAND()*(7049-7000)+7000) AS INT),@counter)
+    SET @counter = @counter + 1
+END;
+
 
 -- -----------------------------------------------------SELECT -----------------------------------------------------------------------------
 

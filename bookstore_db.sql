@@ -329,7 +329,26 @@ BEGIN
     SET @counter = @counter + 1
 END;
 
-
+--customer
+INSERT INTO customers (customer_id, first_name, last_name, gender, dob, email, phone_number, address, staff_id) VALUES
+(1, 'John', 'Doe', 1, '1990-01-01', 'johndoe@email.com', '123-456-7890', '123 Main St', 1),
+(2, 'Jane', 'Doe', 0, '1991-02-02', 'janedoe@email.com', '234-567-8901', '456 Maple Ave', 2),
+(3, 'Bob', 'Smith', 1, '1992-03-03', 'bobsmith@email.com', '345-678-9012', '789 Oak Blvd', 3),
+(4, 'Sue', 'Johnson', 0, '1993-04-04', 'suejohnson@email.com', '456-789-0123', '1011 Elm St', 1),
+(5, 'Mike', 'Jones', 1, '1994-05-05', 'mikejones@email.com', '567-890-1234', '1213 Cedar Ave', 2),
+(6, 'Emily', 'Davis', 0, '1995-06-06', 'emilydavis@email.com', '678-901-2345', '1415 Birch Rd', 3),
+(7, 'David', 'Wilson', 1, '1996-07-07', 'davidwilson@email.com', '789-012-3456', '1617 Pine St', 1),
+(8, 'Amanda', 'Taylor', 0, '1997-08-08', 'amandataylor@email.com', '890-123-4567', '1819 Maple Ave', 2),
+(9, 'Brian', 'Miller', 1, '1998-09-09', 'brianmiller@email.com', '901-234-5678', '2021 Oak St', 3),
+(10, 'Melissa', 'Anderson', 0, '1999-10-10', 'melissaanderson@email.com', '012-345-6789', '2223 Elm Rd', 1),
+(11, 'Tom', 'Brown', 1, '2000-11-11', 'tombrown@email.com', '123-456-7890', '2425 Cedar Ave', 2),
+(12, 'Katie', 'Davis', 0, '2001-12-12', 'katiedavis@email.com', '234-567-8901', '2627 Birch Rd', 3),
+(13, 'James', 'Johnson', 1, '2002-01-13', 'jamesjohnson@email.com', '345-678-9012', '2829 Pine St', 1),
+(14, 'Erica', 'Smith', 0, '2003-02-14', 'ericasmith@email.com', '456-789-0123', '3031 Maple Ave', 2),
+(15, 'Ryan', 'Wilson', 1, '2004-03-15', 'ryanwilson@email.com', '567-890-1234', '3233 Oak Blvd', 3),
+(16, 'Linda', 'Taylor', 0, '2005-04-16', 'lindataylor@email.com','038-507-1828', 'trai tim em', 2);
+--order(20)
+--orderlines(80)
 -- -----------------------------------------------------SELECT -----------------------------------------------------------------------------
 
 --Login Staffs

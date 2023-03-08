@@ -347,8 +347,7 @@ INSERT INTO customers (customer_id, first_name, last_name, gender, dob, email, p
 (14, 'Erica', 'Smith', 0, '2003-02-14', 'ericasmith@email.com', '456-789-0123', '3031 Maple Ave', 2),
 (15, 'Ryan', 'Wilson', 1, '2004-03-15', 'ryanwilson@email.com', '567-890-1234', '3233 Oak Blvd', 3),
 (16, 'Linda', 'Taylor', 0, '2005-04-16', 'lindataylor@email.com','038-507-1828', 'trai tim em', 2);
---order(20)
---orderlines(80)
+
 -- -----------------------------------------------------SELECT -----------------------------------------------------------------------------
 
 --Login Staffs
